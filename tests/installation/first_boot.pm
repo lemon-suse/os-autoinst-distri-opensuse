@@ -20,8 +20,10 @@
 use strict;
 use warnings;
 use base 'bootbasetest';
+use testapi 'set_var';
 
 sub run {
+    set_var('DESKTOP', 'gnome');
     shift->wait_boot_past_bootloader;
 }
 

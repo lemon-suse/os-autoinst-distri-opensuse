@@ -25,6 +25,7 @@ use power_action_utils 'power_action';
 use utils;
 
 sub run {
+    set_var('DESKTOP', 'textmode');
     power_action('poweroff');
 }
 
