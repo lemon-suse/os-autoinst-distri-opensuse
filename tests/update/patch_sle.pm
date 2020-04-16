@@ -17,7 +17,7 @@ use version_utils qw(is_sle is_desktop_installed is_upgrade is_sles4sap);
 use migration;
 use registration;
 use qam;
-
+use x11utils 'turn_off_gnome_screensaver';
 
 sub patching_sle {
     my ($self) = @_;
@@ -82,6 +82,8 @@ sub patching_sle {
 
     # Install salt packages as required
     install_salt_packages() if (check_var_array('SCC_ADDONS', 'asmm'));
+
+    turn_off_gnome_screensaver if check_var('DESKTOP', 'gnome');
 
     # create btrfs subvolume for aarch64
     create_btrfs_subvolume() if (check_var('ARCH', 'aarch64'));
