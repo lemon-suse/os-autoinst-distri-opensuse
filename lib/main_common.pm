@@ -427,6 +427,7 @@ sub load_reboot_tests {
     # there is encryption passphrase prompt which is handled in installation/boot_encrypt
     if ((is_s390x && !get_var('ENCRYPT')) || uses_qa_net_hardware() || is_pvm) {
         loadtest "boot/reconnect_mgmt_console";
+        loadtest 'update/patch_sle';
     }
     if (installyaststep_is_applicable()) {
         # test makes no sense on s390 because grub2 can't be captured
