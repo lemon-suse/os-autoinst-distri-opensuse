@@ -49,6 +49,7 @@ sub run {
     my $out                        = wait_serial($migration_checks, $timeout);
     while ($out) {
         diag "out=$out";
+        diag "out1=$out";
         if ($out =~ $zypper_migration_target) {
             my $version = get_var("VERSION");
             $version =~ s/-/ /;
