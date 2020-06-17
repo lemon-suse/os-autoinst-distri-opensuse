@@ -16,11 +16,13 @@ use base "opensusebasetest";
 use strict;
 use warnings;
 use testapi;
-use utils 'get_x11_console_tty';
+#use utils 'get_x11_console_tty';
+use utils;
 
 sub run {
     # Reset HDDVERSION after upgrade
     set_var('HDDVERSION', get_var('UPGRADE_TARGET_VERSION', get_var('VERSION')));
+    pkcon_quit unless check_var('DESKTOP', 'textmode');
 }
 
 1;
