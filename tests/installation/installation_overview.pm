@@ -27,6 +27,8 @@ use Test::Assert ':all';
 sub ensure_ssh_unblocked {
     if (!get_var('UPGRADE') && is_remote_backend) {
 
+        send_key_until_needlematch 'scroll-hbar', 'tab';
+        send_key_until_needlematch [qw(ssh-blocked ssh-open)], 'down';
         send_key_until_needlematch [qw(ssh-blocked ssh-open)], 'tab';
         if (match_has_tag 'ssh-blocked') {
             if (check_var('VIDEOMODE', 'text')) {
