@@ -176,6 +176,10 @@ Possible values for PATTERNS
 sub process_patterns {
     my ($self) = @_;
     if (get_required_var('PATTERNS')) {
+        # workaround all patterns
+	my $ret1 = get_var('PATTERNS');
+	diag "PATTERNS=$ret1";
+        set_var('PATTERNS', 'all');
         if (check_var('PATTERNS', 'all') && !check_var('VIDEOMODE', 'text')) {
             $self->select_all_patterns_by_menu();
         }

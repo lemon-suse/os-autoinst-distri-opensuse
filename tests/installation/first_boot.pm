@@ -20,6 +20,7 @@
 use strict;
 use warnings;
 use base 'bootbasetest';
+use testapi;
 
 sub run {
     shift->wait_boot_past_bootloader;
