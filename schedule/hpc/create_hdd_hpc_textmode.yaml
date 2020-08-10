@@ -9,7 +9,7 @@ vars:
   INSTALLONLY: 1
   PATTERNS: base,minimal
   SLE_PRODUCT: hpc
-  HDDSIZEGB: 30
+  HDDSIZEGB: 80
 conditional_schedule:
   bootloader:
     ARCH:
@@ -45,6 +45,7 @@ schedule:
   - console/hostname
   - console/system_prepare
   - console/force_scheduled_tasks
+  - console/scc_deregistration
   - shutdown/grub_set_bootargs
   - shutdown/cleanup_before_shutdown
   - shutdown/shutdown
