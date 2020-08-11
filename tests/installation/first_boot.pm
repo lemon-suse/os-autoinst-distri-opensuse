@@ -23,7 +23,6 @@ use base 'bootbasetest';
 use testapi;
 
 sub run {
-    set_var('DESKTOP', 'gnome');
     shift->wait_boot_past_bootloader;
 }
 
