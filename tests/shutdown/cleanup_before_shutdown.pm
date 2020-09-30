@@ -28,6 +28,8 @@ use version_utils;
 
 sub run {
     select_console('root-console');
+    #workaround
+    systemctl 'set-default --force graphical.target';
     # Collect detailed logs to investigate shutdown issues and redirect them to serial console.
     # Please see https://freedesktop.org/wiki/Software/systemd/Debugging/#index2h1 for the details.
     # Boot options that are required to make logs more detalized are located in 'bootloader_setup.pm'
