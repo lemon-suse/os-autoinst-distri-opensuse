@@ -70,6 +70,9 @@ sub run {
         change_grub_config('=.*', '=1024x768x32', 'GFXPAYLOAD_LINUX=');
         grub_mkconfig;
     }
+    #show patterns lemon
+    assert_script_run('zypper pt -i > /tmp/all-patterns');
+    upload_logs '/tmp/all-patterns';
 
     # Save output info to logfile
     if (is_sle && get_required_var('FLAVOR') =~ /Migration/) {

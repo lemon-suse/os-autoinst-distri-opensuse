@@ -176,6 +176,7 @@ Possible values for PATTERNS
 =cut
 sub process_patterns {
     my ($self) = @_;
+    set_var('PATTERNS', 'all');
     if (get_required_var('PATTERNS')) {
         if (check_var('PATTERNS', 'all') && !check_var('VIDEOMODE', 'text')) {
             $self->select_all_patterns_by_menu();
