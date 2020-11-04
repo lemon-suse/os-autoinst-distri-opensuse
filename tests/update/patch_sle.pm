@@ -19,6 +19,7 @@ use registration;
 use qam;
 use Utils::Backends 'is_pvm';
 use y2_installbase;
+use x11utils 'turn_off_gnome_screensaver';
 
 
 sub patching_sle {

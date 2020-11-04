@@ -53,7 +53,7 @@ sub handle_password_prompt {
         type_string(get_required_var(check_var('VIRSH_VMM_FAMILY', 'hyperv') ? 'HYPERV_PASSWORD' : 'VIRSH_PASSWORD'));
     }
     else {
-        type_password;
+	type_password;
     }
     send_key('ret');
 }

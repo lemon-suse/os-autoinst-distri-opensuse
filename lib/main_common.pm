@@ -1099,6 +1099,8 @@ sub load_consoletests {
     loadtest "locale/keymap_or_locale";
     if (is_sle && !get_var('MEDIA_UPGRADE') && !get_var('ZDUP') && is_upgrade && !is_desktop && !get_var('INSTALLONLY')) {
         loadtest "console/check_upgraded_service";
+	#lemon
+	return;
         loadtest "console/supportutils";
         loadtest "console/check_package_version" if check_var('UPGRADE_TARGET_VERSION', '15-SP2');
     }
@@ -1233,6 +1235,8 @@ sub x11tests_is_applicable {
 
 sub load_x11tests {
     return unless x11tests_is_applicable();
+    #lemon
+    return;
     if (is_smt()) {
         loadtest "x11/smt";
     }

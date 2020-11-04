@@ -32,6 +32,7 @@ use services::registered_addons;
 use services::ntpd;
 use services::cups;
 use services::rpcbind;
+use services::users;
 use autofs_utils;
 use services::postfix;
 use kdump_utils;
@@ -57,6 +58,12 @@ our %srv_check_results = (
 );
 
 our $default_services = {
+    users => {
+        srv_pkg_name  => 'users',
+        srv_proc_name => 'users',
+        support_ver   => $support_ver_ge12,
+        service_check_func => \&services::users::full_users_check
+    },
     registered_addons => {
         srv_pkg_name       => 'registered_addons',
         srv_proc_name      => 'registered_addons',
@@ -228,7 +235,7 @@ sub install_services {
                     $service_type = 'Systemd';
                 }
                 if (exists $service->{$s}->{service_check_func}) {
-                    $service->{$s}->{service_check_func}->('before', $service_type);
+                    $service->{$s}->{service_check_func}->($service, 'before', $service_type);
                     next;
                 }
                 zypper_call "in $srv_pkg_name";
@@ -265,7 +272,7 @@ sub check_services {
                 # service check after migration. if we've set up service check
                 # function, we don't need following actions to check the service.
                 if (exists $service->{$s}->{service_check_func}) {
-                    $service->{$s}->{service_check_func}->('after', 'Systemd');
+                    $service->{$s}->{service_check_func}->($service, 'after', 'Systemd');
                     next;
                 }
                 common_service_status($srv_proc_name, $service_type);
