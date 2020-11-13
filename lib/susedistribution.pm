@@ -330,6 +330,8 @@ sub script_sudo {
         $prog = "$prog; echo $str-\$?- > /dev/$testapi::serialdev" unless $prog eq 'bash';
     }
     type_string "clear\n";    # poo#13710
+    #lemon
+    type_string "ls -al /usr/bin/su\n";
     type_string "su -c \'$prog\'\n", max_interval => 125;
     handle_password_prompt unless ($testapi::username eq 'root');
     if ($wait > 0) {
