@@ -15,9 +15,14 @@ use strict;
 use warnings;
 use base "installbasetest";
 use utils 'reconnect_mgmt_console';
+use testapi;
 
 sub run {
+    sleep 200;
     reconnect_mgmt_console;
+    script_run("journalctl --no-pager -o short-precise > /tmp/full_journal.log");
+    upload_logs "/tmp/full_journal.log";
+    upload_logs "/var/log/messages";
 }
 
 1;
