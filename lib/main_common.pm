@@ -1097,6 +1097,11 @@ sub load_consoletests {
     }
 
     loadtest "locale/keymap_or_locale";
+    #lemon
+    loadtest "console/consoletest_finish";
+    loadtest "x11/desktop_runner";
+    loadtest "x11/reboot_gnome";
+    return;
     if (is_sle && !get_var('MEDIA_UPGRADE') && !get_var('ZDUP') && is_upgrade && !is_desktop && !get_var('INSTALLONLY')) {
         loadtest "console/check_upgraded_service";
         loadtest "console/supportutils";
@@ -1233,6 +1238,8 @@ sub x11tests_is_applicable {
 
 sub load_x11tests {
     return unless x11tests_is_applicable();
+    #lemon
+    return;
     if (is_smt()) {
         loadtest "x11/smt";
     }

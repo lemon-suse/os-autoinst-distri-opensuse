@@ -1872,6 +1872,7 @@ sub install_patterns {
         }
         # if pattern is common-criteria and PATTERNS is all, skip, poo#73645
         next if (($pt =~ /common-criteria/) && check_var('PATTERNS', 'all'));
+	next if (($pt =~ /CFEngine/) && check_var('PATTERNS', 'all'));
         my $ret = zypper_call("in -t pattern $pt", exitcode => [0, 4], timeout => 1800);
         if ($ret == 4) {
             if (($pt =~ /CFEngine/) && is_sle('>=12') && is_sle('<15')) {
