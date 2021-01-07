@@ -1073,6 +1073,7 @@ sub load_console_server_tests {
 
 sub load_consoletests {
     return                            unless consolestep_is_applicable();
+    return;
     loadtest "console/system_prepare" unless is_opensuse;
     loadtest 'qa_automation/patch_and_reboot' if is_updates_tests && !get_var('QAM_MINIMAL');
     loadtest "console/check_network";
@@ -1248,6 +1249,8 @@ sub load_x11tests {
     loadtest "x11/xterm";
     loadtest "locale/keymap_or_locale_x11";
     loadtest "x11/sshxterm" unless get_var("LIVETEST");
+    #lemon
+    return;
     if (gnomestep_is_applicable()) {
         load_system_update_tests();
         loadtest "x11/gnome_control_center";
