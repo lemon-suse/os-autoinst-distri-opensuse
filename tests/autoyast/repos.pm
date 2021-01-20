@@ -30,7 +30,9 @@ use utils;
 sub run {
     # sles12_minimal.xml profile does not install "ip"
     assert_script_run 'ip a || ifstatus all';
+    script_run 'ps -ef| grep zypper';
     quit_packagekit;
+    script_run 'ps -ef| grep zypper';
     zypper_enable_install_dvd;
     # make sure that save_y2logs from yast2 package, tar and bzip2 are installed
     # even on minimal system
