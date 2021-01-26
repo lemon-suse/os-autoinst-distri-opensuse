@@ -42,6 +42,10 @@ sub run {
     script_run('ls -alF /etc/sysconfig/network/');
     save_screenshot;
 
+    #lemon
+    script_run('pstree > /tmp/pstree');
+    upload_logs '/tmp/pstree';
+    script_run('pstree');
     my $opened = open_yast2_lan();
     wait_still_screen(14);
     if ($opened eq "Controlled by network manager") {
