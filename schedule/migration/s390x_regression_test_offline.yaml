@@ -54,6 +54,7 @@ conditional_schedule:
     REGRESSION_TEST:
       1:
         - locale/keymap_or_locale
+        - console/force_scheduled_tasks
         - console/textinfo
         - console/hostname
         - console/zypper_lr

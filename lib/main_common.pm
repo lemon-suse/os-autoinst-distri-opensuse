@@ -1156,6 +1156,8 @@ sub load_consoletests {
     }
     loadtest "console/ncurses";
     loadtest "console/yast2_lan" unless is_bridged_networking;
+    #lemon
+    return;
     # no local certificate store
     if (!is_krypton_argon) {
         loadtest "console/curl_https";
