@@ -1,7 +1,7 @@
 # SUSE's openQA tests
 #
 # Copyright © 2009-2013 Bernhard M. Wiedemann
-# Copyright © 2012-2017 SUSE LLC
+# Copyright © 2012-2021 SUSE LLC
 #
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -25,6 +25,9 @@ sub run {
     my ($self) = shift;
 
     $self->libreoffice_start_program('oowriter');
+    # It will open a tips for the first time open libreoffice-writer, we need
+    # click 'ok' to close it.
+    assert_and_click('ooffice-tips-ok');
     # clicking the writing area to make sure the cursor addressed there
     assert_and_click('ooffice-writing-area', timeout => 10);
     wait_still_screen(5, 10);
