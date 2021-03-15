@@ -53,6 +53,7 @@ sub run {
     save_screenshot();
 
     if (!check_var("DESKTOP", "textmode")) {
+	reset_consoles;
         select_console('x11', await_console => 0);
         ensure_unlocked_desktop;
     }

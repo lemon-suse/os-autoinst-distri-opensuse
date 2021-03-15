@@ -138,6 +138,7 @@ sub full_users_check {
     my (%hash) = @_;
     my $stage = $hash{stage};
 
+    reset_consoles;
     turn_off_gnome_screensaver if check_var('DESKTOP', 'gnome');
     select_console 'x11', await_console => 0;
     wait_still_screen 5;
@@ -159,6 +160,8 @@ sub full_users_check {
     }
     else {
         #swtich to new added user then switch back
+	#	assert_script_run 'pkill Xvnc ||:' if !check_var('DESKTOP', 'textmode') && check_var('ARCH', 's390x');
+        handle_logout;
         switch_users;
         send_key "alt-f4";
         send_key "ret";
