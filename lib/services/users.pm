@@ -166,4 +166,10 @@ sub full_users_check {
     }
 }
 
+sub post_fail_hook {
+    eval {
+        select_console('root-virtio-terminal1') if (get_var('VIRTIO_CONSOLE_NUM', 1) > 1);
+        upload_file('/tmp/tcpdump' . 'vnctest' . '.pcap', 'tcpdump' . 'vnctest' . '.pcap');
+    };
+}
 1;
