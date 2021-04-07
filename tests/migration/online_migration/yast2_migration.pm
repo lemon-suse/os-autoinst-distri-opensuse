@@ -308,6 +308,13 @@ sub test_flags {
 
 sub post_fail_hook {
     my ($self) = @_;
+    #send_key "alt-o";
+    #send_key "alt-r";
+    #wait_still_screen(10);
+    #send_key "alt-a";
+    #wait_still_screen(10);
+    reset_consoles;
+    wait_still_screen(10);
     select_console 'log-console';
     $self->save_and_upload_log('journalctl -b -o short-precise', '/tmp/journal.log', {screenshot => 1});
     $self->export_logs_desktop;
