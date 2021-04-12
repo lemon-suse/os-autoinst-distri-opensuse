@@ -23,6 +23,7 @@ schedule:
   - console/system_state
   - console/prepare_test_data
   - console/consoletest_setup
+  - console/verify_network
   - '{{regression_tests}}'
   - boot/grub_test_snapshot
   - migration/version_switch_origin_system
@@ -51,31 +52,31 @@ conditional_schedule:
       1:
         - locale/keymap_or_locale
         - console/check_upgraded_service
-        - console/supportutils
+          #- console/supportutils
         - console/force_scheduled_tasks
         - console/textinfo
         - console/hostname
-        - console/upgrade_snapshots
-        - console/x_vt
-        - console/zypper_lr
-        - console/check_system_info
-        - console/zypper_ref
-        - console/ncurses
-        - console/yast2_lan
-        - console/curl_https
-        - console/salt
-        - console/glibc_sanity
-        - console/zypper_in
-        - console/zypper_log
-        - console/yast2_i
-        - console/yast2_bootloader
-        - console/vim
-        - console/firewall_enabled
-        - console/sshd
-        - console/ssh_cleanup
-        - console/mtab
-        - console/zypper_lifecycle
-        - console/orphaned_packages_check
+          #        - console/upgrade_snapshots
+          # - console/x_vt
+          #- console/zypper_lr
+          # - console/check_system_info
+          #- console/zypper_ref
+          #- console/ncurses
+          # - console/yast2_lan
+          #- console/curl_https
+          #- console/salt
+          #- console/glibc_sanity
+          # - console/zypper_in
+          #- console/zypper_log
+          #- console/yast2_i
+          #- console/yast2_bootloader
+          #- console/vim
+          #- console/firewall_enabled
+          #- console/sshd
+          #- console/ssh_cleanup
+          # - console/mtab
+          #- console/zypper_lifecycle
+          #- console/orphaned_packages_check
         - console/consoletest_finish
 
       2:
