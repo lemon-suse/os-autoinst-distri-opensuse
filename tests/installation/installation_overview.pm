@@ -44,6 +44,10 @@ sub ensure_ssh_unblocked {
                 send_key_until_needlematch 'ssh-open', 'tab';
             }
         }
+	else {
+             send_key 'ret';
+             send_key_until_needlematch 'ssh-open', 'tab';
+	}
         #performance ci need disable firewall
         if (get_var('DISABLE_FIREWALL')) {
             send_key_until_needlematch [qw(firewall-enable firewall-disable)], 'tab';
