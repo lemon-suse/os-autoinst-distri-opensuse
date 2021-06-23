@@ -212,7 +212,7 @@ If yes, import the key, otherwise don't.
 sub handle_untrusted_gpg_key {
     if (match_has_tag('import-known-untrusted-gpg-key')) {
         record_info('Import', 'Known untrusted gpg key is imported');
-        wait_screen_change { send_key 'alt-y' };    # import
+        wait_screen_change { send_key 'alt-a'; send_key 'alt-y' };    # import
     }
     else {
         record_info('Cancel import', 'Untrusted gpg key is NOT imported');
