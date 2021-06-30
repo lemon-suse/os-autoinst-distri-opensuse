@@ -84,7 +84,7 @@ sub back_to_overview_from_packages {
     assert_screen('automatic-changes');
     send_key 'alt-o';
     $self->accept3rdparty();
-    assert_screen('installation-settings-overview-loaded');
+    assert_screen('installation-settings-overview-loaded', 600);
 }
 
 =head2 check12qtbug
