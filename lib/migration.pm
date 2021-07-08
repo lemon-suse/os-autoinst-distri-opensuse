@@ -42,6 +42,7 @@ our @EXPORT = qw(
 
 sub setup_sle {
     select_console 'root-console';
+    #send_key "ctrl-alt-f2";
 
     # Stop packagekitd
     if (is_sle('12+')) {
@@ -55,7 +56,10 @@ sub setup_sle {
     wait_quit_zypper;
     # Change serial dev permissions
     ensure_serialdev_permissions;
-
+    
+    #lemon
+    assert_script_run "clear";
+    assert_script_run "echo -e '\033c'";
     # Enable Y2DEBUG for error debugging
     enter_cmd "echo 'export Y2DEBUG=1' >> /etc/bash.bashrc.local";
     script_run "source /etc/bash.bashrc.local";
