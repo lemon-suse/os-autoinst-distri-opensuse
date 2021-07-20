@@ -1377,6 +1377,7 @@ sub reconnect_mgmt_console {
         # different behaviour for z/VM and z/KVM
         if (check_var('BACKEND', 's390x')) {
             my $console = console('x3270');
+	    record_info 'bsc#1190429', "openQA test fails in reconnect_mgmt_console - system couldn't boot after install SLES15SP1 on z/VM", result => 'softfail' if (is_sle('=15-SP1'));
             # grub is handled in unlock_if_encrypted unless affected by bsc#993247 or https://fate.suse.com/321208
             handle_grub_zvm($console) if (!get_var('ENCRYPT') || get_var('ENCRYPT_ACTIVATE_EXISTING') && !get_var('ENCRYPT_FORCE_RECOMPUTE'));
             my $r;
