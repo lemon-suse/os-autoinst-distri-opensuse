@@ -22,15 +22,18 @@ use partition_setup qw(%partition_roles is_storage_ng_newui);
 
 sub run {
     assert_screen 'partitioning-edit-proposal-button', 40;
-    if (check_var('PARTITION_EDIT', 'ext4_btrfs')) {
+    #if (check_var('PARTITION_EDIT', 'ext4_btrfs')) {
+    my $my_filesys = get_var('PARTITION_EDIT');
+    if ($my_filesys) {
         send_key 'alt-g';
         send_key 'alt-n';
         send_key 'down';
         send_key 'alt-f';
-        type_string 'ext4';
+	#type_string 'ext4';
+	type_string $my_filesys;
         send_key 'alt-i';
         send_key 'b';
-        assert_screen 'partitioning-ext4_root-btrfs_home';
+        assert_screen "partitioning-" . $my_filesys . "_root";
         send_key 'alt-n';
     }
 
