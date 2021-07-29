@@ -35,6 +35,7 @@ sub run {
     ensure_serialdev_permissions;
 
     prepare_serial_console;
+    script_run 'gsettings set org.gnome.desktop.session idle-delay 0';
 
     if (!check_var('DESKTOP', 'textmode')) {
         # Make sure packagekit is not running, or it will conflict with SUSEConnect.
