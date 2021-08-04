@@ -226,7 +226,8 @@ sub run {
             send_key 'alt-t';
         }
     }
-    assert_screen [qw(yast2-migration-installupdate yast2_migration-license-agreement)], 300;
+    # licience won't be shown during early phase of project, installupdate will be shown randomly
+    assert_screen [qw(yast2-migration-installupdate yast2_migration-license-agreement)], 600;
     if (match_has_tag 'yast2-migration-installupdate', 150) {    # Not all cases have install update message.
         send_key 'alt-y';
         assert_screen 'yast2_migration-license-agreement', 60;
@@ -234,6 +235,14 @@ sub run {
     }
     if (match_has_tag 'yast2_migration-license-agreement', 150) {
         yast2_migration_handle_license_agreement;
+    }
+    if (match_has_tag 'yast2-migration-proposal', 150) {
+        if (yast2_migration_gnome_x11) {
+            yast2_migration_handle_conflicts_x11($self);
+        }
+        else {
+            yast2_migration_handle_conflicts_text;
+        }
     }
     assert_screen 'yast2-migration-proposal', 60;
     if (yast2_migration_gnome_x11) {
