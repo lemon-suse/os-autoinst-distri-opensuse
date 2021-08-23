@@ -16,7 +16,7 @@ use warnings;
 use base "consoletest";
 use testapi;
 use utils qw(systemctl zypper_call);
-use version_utils qw(is_sle is_leap is_tumbleweed);
+use version_utils qw(is_sle is_leap);
 
 sub uses_iptables {
     return is_sle('<15-SP3') || is_leap('<15.3');
@@ -42,7 +42,11 @@ sub check_rules {
     else {
         assert_script_run("nft list chain inet firewalld filter_IN_public_allow | grep 25");
         assert_script_run("nft list chain inet firewalld filter_IN_public_allow | grep 110");
-        assert_script_run("nft list chain inet firewalld filter_FWDI_public | grep icmp");
+        if (is_leap("<16") || is_sle("<16")) {
+            assert_script_run("nft list chain inet firewalld filter_FWDI_public | grep icmp");
+        } else {
+            assert_script_run("nft list chain inet firewalld filter_FWD_public | grep icmp");
+        }
         assert_script_run("nft list chain inet firewalld filter_IN_public_allow | grep 2000-3000");
     }
 }
@@ -61,16 +65,40 @@ sub start_stop_firewalld {
     }
 }
 
-# Test #2 - Temporary Rules
-sub test_temporary_rules {
-    record_info 'Temporary rules', 'Test Temporary Rules';
+# Store the count of rules in IN and FWD(I) chains in /tmp/nr_* files
+sub collect_in_fwd_rule_count {
     if (uses_iptables) {
         assert_script_run("iptables -L IN_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l > /tmp/nr_rules.txt");
     }
     else {
         assert_script_run("nft list chain inet firewalld filter_IN_public_allow | wc -l > /tmp/nr_in_public.txt");
-        assert_script_run("nft list chain inet firewalld filter_FWDI_public | wc -l > /tmp/nr_fwdi_public.txt");
+        if (is_leap("<16") || is_sle("<16")) {
+            assert_script_run("nft list chain inet firewalld filter_FWDI_public | wc -l > /tmp/nr_fwdi_public.txt");
+        } else {
+            assert_script_run("nft list chain inet firewalld filter_FWD_public | wc -l > /tmp/nr_fwd_public.txt");
+        }
     }
+}
+
+# Compare the count of rules in in and FWD(I) chains against the saved counts in /tmp/nr_* files
+sub verify_in_fwd_rule_count {
+    if (uses_iptables) {
+        assert_script_run("test `iptables -L IN_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l` -eq `cat /tmp/nr_rules.txt`");
+    }
+    else {
+        assert_script_run("test `nft list chain inet firewalld filter_IN_public_allow | wc -l` -eq `cat /tmp/nr_in_public.txt`");
+        if (is_leap("<16") || is_sle("<16")) {
+            assert_script_run("test `nft list chain inet firewalld filter_FWDI_public | wc -l` -eq `cat /tmp/nr_fwdi_public.txt`");
+        } else {
+            assert_script_run("test `nft list chain inet firewalld filter_FWD_public | wc -l` -eq `cat /tmp/nr_fwd_public.txt`");
+        }
+    }
+}
+
+# Test #2 - Temporary Rules
+sub test_temporary_rules {
+    record_info 'Temporary rules', 'Test Temporary Rules';
+    collect_in_fwd_rule_count;
 
     assert_script_run("firewall-cmd --zone=public --add-port=25/tcp");
     assert_script_run("firewall-cmd --zone=public --add-service=pop3");
@@ -82,26 +110,14 @@ sub test_temporary_rules {
     # Reload default configuration
     record_info 'Reload default configuration';
     assert_script_run("firewall-cmd --reload");
-    if (uses_iptables) {
-        assert_script_run("test `iptables -L IN_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l` -eq `cat /tmp/nr_rules.txt`");
-    }
-    else {
-        assert_script_run("test `nft list chain inet firewalld filter_IN_public_allow | wc -l` -eq `cat /tmp/nr_in_public.txt`");
-        assert_script_run("test `nft list chain inet firewalld filter_FWDI_public | wc -l` -eq `cat /tmp/nr_fwdi_public.txt`");
-    }
+    verify_in_fwd_rule_count;
 }
 
 # Test #3 - Test Permanent Rules
 sub test_permanent_rules {
     # Test Permanent Rules
     record_info 'Permanent Rules', 'Test Permanent Rules';
-    if (uses_iptables) {
-        assert_script_run("iptables -L IN_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l > /tmp/nr_rules.txt");
-    }
-    else {
-        assert_script_run("nft list chain inet firewalld filter_IN_public_allow | wc -l > /tmp/nr_in_public.txt");
-        assert_script_run("nft list chain inet firewalld filter_FWDI_public | wc -l > /tmp/nr_fwdi_public.txt");
-    }
+    collect_in_fwd_rule_count;
 
     assert_script_run("firewall-cmd --zone=public --permanent --add-port=25/tcp");
     assert_script_run("firewall-cmd --zone=public --permanent --add-service=pop3");
@@ -119,14 +135,7 @@ sub test_permanent_rules {
     assert_script_run("firewall-cmd --zone=public --permanent --remove-protocol=icmp");
     assert_script_run("firewall-cmd --zone=public --permanent --remove-port=2000-3000/udp");
     assert_script_run("firewall-cmd --reload");
-    if (uses_iptables) {
-        assert_script_run("test `iptables -L IN_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l` -eq `cat /tmp/nr_rules.txt`");
-    }
-    else {
-        assert_script_run("test `nft list chain inet firewalld filter_IN_public_allow | wc -l` -eq `cat /tmp/nr_in_public.txt`");
-        assert_script_run("test `nft list chain inet firewalld filter_FWDI_public | wc -l` -eq `cat /tmp/nr_fwdi_public.txt`");
-    }
-
+    verify_in_fwd_rule_count;
 }
 
 # Test #4 - Test Rules using Masquerading
@@ -135,10 +144,12 @@ sub test_masquerading {
     if (uses_iptables) {
         assert_script_run("iptables -t nat -L PRE_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l > /tmp/nr_rules_nat_pre.txt");
         assert_script_run("iptables -t nat -L POST_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l > /tmp/nr_rules_nat_post.txt");
-    }
-    else {
+    } elsif (is_leap("<16") || is_sle("<16")) {
         assert_script_run("nft list chain ip firewalld nat_PRE_public_allow | wc -l > /tmp/nr_rules_nat_pre.txt");
         assert_script_run("nft list chain ip firewalld nat_POST_public_allow | wc -l > /tmp/nr_rules_nat_post.txt");
+    } else {
+        assert_script_run("nft list chain inet firewalld nat_PRE_public_allow | wc -l > /tmp/nr_rules_nat_pre.txt");
+        assert_script_run("nft list chain inet firewalld nat_POST_public_allow | wc -l > /tmp/nr_rules_nat_post.txt");
     }
 
     assert_script_run("firewall-cmd --zone=public --add-masquerade");
@@ -147,10 +158,12 @@ sub test_masquerading {
     if (uses_iptables) {
         assert_script_run("iptables -t nat -L PRE_public_allow | grep 'to::22'");
         assert_script_run("iptables -t nat -L POST_public_allow | grep MASQUERADE");
-    }
-    else {
+    } elsif (is_leap("<16") || is_sle("<16")) {
         assert_script_run("nft list chain ip firewalld nat_PRE_public_allow | grep 'redirect to :22'");
         assert_script_run("nft list chain ip firewalld nat_POST_public_allow | grep masquerade");
+    } else {
+        assert_script_run("nft list chain inet firewalld nat_PRE_public_allow | grep 'redirect to :22'");
+        assert_script_run("nft list chain inet firewalld nat_POST_public_allow | grep masquerade");
     }
 
     # Reload default configuration
@@ -159,10 +172,12 @@ sub test_masquerading {
     if (uses_iptables) {
         assert_script_run("test `iptables -t nat -L PRE_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l` -eq `cat /tmp/nr_rules_nat_pre.txt`");
         assert_script_run("test `iptables -t nat -L POST_public_allow --line-numbers | sed '/^num\\|^\$\\|^Chain/d' | wc -l` -eq `cat /tmp/nr_rules_nat_post.txt`");
-    }
-    else {
+    } elsif (is_leap("<16") || is_sle("<16")) {
         assert_script_run("test `nft list chain ip firewalld nat_PRE_public_allow | wc -l` -eq `cat /tmp/nr_rules_nat_pre.txt`");
         assert_script_run("test `nft list chain ip firewalld nat_POST_public_allow | wc -l` -eq `cat /tmp/nr_rules_nat_post.txt`");
+    } else {
+        assert_script_run("test `nft list chain inet firewalld nat_PRE_public_allow | wc -l` -eq `cat /tmp/nr_rules_nat_pre.txt`");
+        assert_script_run("test `nft list chain inet firewalld nat_POST_public_allow | wc -l` -eq `cat /tmp/nr_rules_nat_post.txt`");
     }
 }
 

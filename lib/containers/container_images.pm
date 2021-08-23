@@ -8,7 +8,7 @@
 # without any warranty.
 
 # Summary: Functionality concerning the testing of container images
-# Maintainer: George Gkioulis <ggkioulis@suse.com>
+# Maintainer: qa-c team <qa-c@suse.de>
 
 package containers::container_images;
 
@@ -57,6 +57,11 @@ sub build_and_run_image {
     record_info('Downloading', "Dockerfile: containers/$dockerfile\nHTML: containers/index.html");
     assert_script_run "mkdir -p $dir/BuildTest";
     assert_script_run "curl -f -v " . data_url("containers/$dockerfile") . " > $dir/BuildTest/Dockerfile";
+    if ($dockerfile eq 'Dockerfile.python3') {
+        $base = registry_url('python', 3);
+        assert_script_run "curl -f -v " . data_url('containers/requirements.txt') . " > $dir/BuildTest/requirements.txt";
+        assert_script_run "curl -f -v " . data_url('containers/app.py') . " > $dir/BuildTest/app.py";
+    }
     file_content_replace("$dir/BuildTest/Dockerfile", baseimage_var => $base) if defined $base;
     assert_script_run "curl -f -v " . data_url('containers/index.html') . " > $dir/BuildTest/index.html";
 
@@ -147,8 +152,9 @@ sub test_opensuse_based_image {
     my $image   = $args{image};
     my $runtime = $args{runtime};
 
-    my $distri  = $args{distri}  //= get_required_var("DISTRI");
-    my $version = $args{version} //= get_required_var("VERSION");
+    my $distri  = $args{distri}  // get_required_var("DISTRI");
+    my $version = $args{version} // get_required_var("VERSION");
+    my $beta    = $args{beta}    // get_var('BETA', 0);
 
     die 'Argument $image not provided!'   unless $image;
     die 'Argument $runtime not provided!' unless $runtime;
@@ -169,7 +175,7 @@ sub test_opensuse_based_image {
     if ($image_id =~ 'sles') {
         if ($host_id =~ 'sles') {
             my $pretty_version = $version =~ s/-SP/ SP/r;
-            my $betaversion    = get_var('BETA') ? '\s\([^)]+\)' : '';
+            my $betaversion    = $beta ? '\s\([^)]+\)' : '';
             record_info "Validating", "Validating That $image has $pretty_version on /etc/os-release";
             if ($runtime =~ /buildah/) {
                 validate_script_output("$runtime run $image grep PRETTY_NAME /etc/os-release | cut -d= -f2",
