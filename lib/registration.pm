@@ -644,6 +644,7 @@ sub handle_scc_popups {
                 last;
             }
             elsif (match_has_tag('inst-addon')) {
+                send_key $cmd{next};
                 return;
             }
             elsif (match_has_tag('expired-gpg-key')) {
