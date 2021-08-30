@@ -84,11 +84,12 @@ conditional_schedule:
       2:
         - console/supportutils
         - console/force_scheduled_tasks
-        - console/upgrade_snapshots
-        - console/zypper_lifecycle
+          #     - console/upgrade_snapshots
+          #- console/zypper_lifecycle
         - console/consoletest_finish
         - x11/desktop_runner
         - x11/xterm
+        - x11/reboot_gnome
         - locale/keymap_or_locale_x11
         - x11/sshxterm
         - x11/gnome_control_center

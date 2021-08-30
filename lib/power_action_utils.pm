@@ -89,10 +89,9 @@ sub reboot_x11 {
         } else {
             send_key_until_needlematch 'logoutdialog', 'ctrl-alt-delete', 7, 10;    # reboot
         }
-        my $repetitions = assert_and_click_until_screen_change 'logoutdialog-reboot-highlighted';
-        record_soft_failure 'poo#19082' if ($repetitions > 0);
+	my $repetitions = assert_and_click_until_screen_change 'logoutdialog-reboot-highlighted';
+	record_soft_failure 'poo#19082' if ($repetitions > 0);
         if (get_var("SHUTDOWN_NEEDS_AUTH")) {
-
             assert_screen 'shutdown-auth';
             wait_still_screen(3);                                                   # 981299#c41
             type_string $testapi::password, max_interval => 5;
