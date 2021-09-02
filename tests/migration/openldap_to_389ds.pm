@@ -38,6 +38,10 @@ sub run {
     zypper_call('info 389-ds');
     # Install openldap since we need use slaptest tools
     add_suseconnect_product('sle-module-legacy') if is_sle;
+    #add to check which package can't be found on SLES15SP4
+    zypper_call("in openldap2");
+    zypper_call("in sssd-ldap");
+    zypper_call("in openldap2-client");
     zypper_call("in openldap2 sssd-ldap openldap2-client");
 
     # Disable and stop the nscd daemon because it conflicts with sssd
