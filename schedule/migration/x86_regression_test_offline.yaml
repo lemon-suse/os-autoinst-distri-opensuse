@@ -42,7 +42,7 @@ schedule:
   - console/prepare_test_data
   - console/consoletest_setup
   - '{{check_upgraded_service}}'
-  - migration/openldap_to_389ds
+  - '{{openldap_to_389ds}}'
   - '{{regression_tests}}'
   - boot/grub_test_snapshot
   - migration/version_switch_origin_system
@@ -60,6 +60,10 @@ conditional_schedule:
     REGRESSION_SERVICE:
       1:
         - installation/install_service
+  openldap_to_389ds:
+    REGRESSION_389DS:
+      1:
+        - migration/openldap_to_389ds
   regression_tests:
     REGRESSION_TEST:
       1:
