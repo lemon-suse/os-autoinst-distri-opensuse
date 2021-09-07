@@ -22,6 +22,7 @@ use base "consoletest";
 use strict;
 use warnings;
 use testapi;
+use Utils::Architectures;
 use utils;
 use version_utils;
 use registration;
@@ -95,7 +96,7 @@ sub check_buildid {
 
 sub run {
     select_console('root-console');
-    assert_script_run('setterm -blank 0') unless (check_var('ARCH', 's390x'));
+    assert_script_run('setterm -blank 0') unless (is_s390x);
 
     script_run('zypper lr | tee /tmp/zypperlr.txt');
 
@@ -118,8 +119,6 @@ sub run {
         $myaddons .= ",base,serverapp,desktop,dev,lgm,wsm"      if (is_sle('<15', get_var('ORIGIN_SYSTEM_VERSION')) && is_sle('15+'));
         $myaddons .= ",base,serverapp,desktop,dev,lgm,wsm,phub" if (is_leap_migration);
 
-        # After upgrade, system doesn't include ltss extension
-        $myaddons =~ s/ltss,?//g;
         # For hpc, system doesn't include legacy module
         $myaddons =~ s/lgm,?//g if (get_var("SCC_ADDONS", "") =~ /hpcm/);
         check_addons($myaddons);

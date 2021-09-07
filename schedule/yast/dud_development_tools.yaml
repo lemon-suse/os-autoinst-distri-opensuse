@@ -15,10 +15,11 @@ schedule:
   - installation/isosize
   - installation/bootloader_start
   - installation/setup_libyui
-  - installation/validate_beta_popup
-  - installation/product_selection/select_product
+  - installation/product_selection/access_beta_distribution
+  - installation/product_selection/install_SLES
   - installation/licensing/accept_license
-  - installation/scc_registration
+  - installation/registration/register_via_scc
+  - installation/registration/modules_selection
   - installation/dud_addon
   - installation/addon_products_sle
   - installation/system_role
@@ -42,7 +43,6 @@ schedule:
   - console/validate_dud_addon_repos
   - console/orphaned_packages_check
 test_data:
-  product: SLES
   dud_repos:
     # repos here should correspond with repos in 'data/add_on_products.xml'
     REPO_SLE_MODULE_DEVELOPMENT_TOOLS:

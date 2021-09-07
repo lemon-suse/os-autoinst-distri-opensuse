@@ -14,8 +14,8 @@ use warnings;
 use testapi;
 use utils;
 use registration;
-use Utils::Backends qw(is_pvm is_xen_pv is_ipmi);
-use Utils::Architectures qw(is_ppc64le is_aarch64 is_x86_64);
+use Utils::Backends;
+use Utils::Architectures;
 use power_action_utils 'power_action';
 use version_utils qw(is_sle is_jeos is_leap is_tumbleweed is_opensuse);
 use utils 'ensure_serialdev_permissions';
@@ -179,7 +179,7 @@ sub activate_kdump {
     if ($expect_restart_info == 1) {
         my @tags = qw(yast2-kdump-restart-info os-prober-warning);
         do {
-            assert_screen(\@tags);
+            assert_screen(\@tags, timeout => 90);
             handle_warning_install_os_prober() if match_has_tag('os-prober-warning');
         } until (match_has_tag('yast2-kdump-restart-info'));
         send_key('alt-o');
@@ -219,7 +219,7 @@ sub deactivate_kdump_cli {
 sub activate_kdump_without_yast {
     # activate kdump by grub, need a reboot to start kdump
     my $cmd = "";
-    if (check_var('ARCH', 'ppc64le') || check_var('ARCH', 'aarch64')) {
+    if (is_ppc64le || is_aarch64) {
         $cmd = "if [ -e /etc/default/grub ]; then sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT/ s/\"\$/ crashkernel=256M \"/' /etc/default/grub; fi";
     }
     else {
@@ -297,7 +297,7 @@ sub configure_service {
     $self->wait_boot(bootloader_time => 300);
 
     select_console 'root-console';
-    if (check_var('ARCH', 'ppc64le') || check_var('ARCH', 'ppc64')) {
+    if (is_ppc64le || check_var('ARCH', 'ppc64')) {
         if (script_run('kver=$(uname -r); kconfig="/boot/config-$kver"; [ -f $kconfig ] && grep ^CONFIG_RELOCATABLE $kconfig')) {
             record_soft_failure 'poo#49466 -- No kdump if no CONFIG_RELOCATABLE in kernel config';
             return 1;

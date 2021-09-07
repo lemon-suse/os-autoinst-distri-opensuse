@@ -24,7 +24,7 @@ use power_action_utils 'power_action';
 use version_utils qw(is_opensuse is_microos is_sle_micro is_sle);
 use utils 'reconnect_mgmt_console';
 use Utils::Backends 'is_pvm';
-use Utils::Architectures qw(is_s390x);
+use Utils::Architectures;
 
 our @EXPORT = qw(
   process_reboot
@@ -143,7 +143,7 @@ sub rpmver {
 # Optionally skip exit status check in case immediate reboot is expected
 sub trup_call {
     my ($cmd, %args) = @_;
-    $args{timeout}   //= 90;
+    $args{timeout}   //= 180;
     $args{exit_code} //= 0;
 
     # Always wait for rollback.service to be finished before triggering manually transactional-update

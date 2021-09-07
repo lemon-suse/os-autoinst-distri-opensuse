@@ -13,10 +13,11 @@ vars:
 schedule:
   - installation/bootloader_start
   - installation/setup_libyui
-  - installation/validate_beta_popup
-  - installation/product_selection/select_product
+  - installation/product_selection/access_beta_distribution
+  - installation/product_selection/install_SLES
   - installation/licensing/accept_license
-  - installation/scc_registration
+  - installation/registration/register_via_scc
+  - installation/registration/modules_selection
   - installation/addon_products_sle
   - installation/system_role
   - installation/partitioning/warning/no_root
@@ -48,5 +49,3 @@ conditional_schedule:
         - installation/hostname_inst
       svirt:
         - installation/hostname_inst
-test_data:
-  product: SLES
