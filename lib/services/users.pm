@@ -48,6 +48,7 @@ sub logout_and_login {
     my $test_user = $login_user // $username;
     my $test_pw   = $login_pw   // $newpwd;
     handle_logout;
+    reset_consoles if is_s390x;
     handle_login($test_user, 0, $test_pw);
 }
 
