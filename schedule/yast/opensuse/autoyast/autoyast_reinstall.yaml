@@ -1,23 +1,24 @@
 ---
-name: autoyast_rules_and_classes
+name: autoyast_reinstall
 description: >
-  For future testing of AutoYaST rules and classes
-vars:
-  AUTOYAST: autoyast_sle15/rule-based_example/
+    Parent job produces autoyast profile after successful completion.
+    This test uses generated profile to do autoyast installation.
 schedule:
-  - autoyast/prepare_rules_and_classes
   - installation/bootloader_start
   - autoyast/installation
+  # On Tumbleweed process Welcome pop-up screen
+  - '{{opensuse_welcome}}'
   - autoyast/console
   - autoyast/login
+  - autoyast/verify_imported_users
   - autoyast/wicked
   - autoyast/repos
   - autoyast/clone
+  - autoyast/verify_cloned_profile
   - autoyast/logs
   - autoyast/autoyast_reboot
-  - installation/grub_test
+  - installation/handle_reboot
   - installation/first_boot
-  - console/validate_partition_table_via_blkid
   - console/validate_blockdevices
   - console/zypper_lr
   - console/zypper_ref
@@ -26,4 +27,8 @@ schedule:
   - console/zypper_in
   - console/zypper_log
   - console/orphaned_packages_check
-  - autoyast/verify_cloned_profile
+conditional_schedule:
+  opensuse_welcome:
+    VERSION:
+      Tumbleweed:
+        - installation/opensuse_welcome
