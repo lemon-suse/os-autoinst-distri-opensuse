@@ -1,0 +1,39 @@
+---
+name:           ext4@migration-s390x
+description:    >
+  Test ext4 filesystem during migration test on s390x.
+  Grub is not displayed due to console reconnection.
+vars:
+  DESKTOP: gnome
+  FORMAT_DASD: install
+  YUI_REST_API: 1
+schedule:
+    - installation/bootloader_s390
+    - installation/welcome
+    - installation/accept_license
+    - installation/disk_activation
+    - installation/scc_registration
+    - installation/addon_products_sle
+    - installation/system_role
+    - installation/partitioning/select_guided_setup
+    - installation/partitioning/guided_setup
+    - installation/partitioning/accept_proposed_layout
+    - installation/installer_timezone
+    - installation/hostname_inst
+    - installation/user_settings
+    - installation/user_settings_root
+    - installation/resolve_dependency_issues
+    - installation/select_patterns
+    - installation/installation_overview
+    - installation/disable_grub_timeout
+    - installation/start_install
+    - installation/await_install
+    - installation/logs_from_installation_system
+    - installation/reboot_after_installation
+    - installation/handle_reboot
+    - installation/first_boot
+test_data:
+  guided_partitioning:
+    filesystem_options:
+      root_filesystem_type: ext4
+  <<: !include test_data/yast/ext4/ext4_s390x.yaml
