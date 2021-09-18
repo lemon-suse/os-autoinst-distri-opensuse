@@ -164,7 +164,7 @@ sub y2snapper_show_changes_and_delete {
         wait_screen_change { send_key "tab" };
         wait_screen_change { send_key "spc" };
     }
-    assert_screen 'yast2_snapper-selected_testdata';
+    assert_screen 'yast2_snapper-selected_testdata', 120;
     # Close the dialog and make sure it is closed
     send_key 'alt-c';
     # Dele't'e the snapshot
