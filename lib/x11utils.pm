@@ -213,7 +213,9 @@ sub handle_login {
     save_screenshot();
     # wait for DM, avoid screensaver and try to login
     # Previously this pressed esc, but that makes the text field in SDDM lose focus
-    send_key_until_needlematch('displaymanager', 'shift', 30, 3);
+    my $mykey = check_var('DESKTOP', 'gnome') ? 'esc' : 'shift';
+    send_key_until_needlematch('displaymanager', $mykey, 30, 3);
+    #send_key_until_needlematch('displaymanager', 'shift', 30, 3);
     if (get_var('ROOTONLY')) {
         if (check_screen 'displaymanager-username-notlisted', 10) {
             record_soft_failure 'bgo#731320/boo#1047262 "not listed" Login screen for root user is not intuitive';
@@ -338,7 +340,7 @@ Disable screensaver in gnome. To be called from a command prompt, for example an
 
 =cut
 sub turn_off_gnome_screensaver {
-    script_run 'gsettings set org.gnome.desktop.session idle-delay 0';
+    script_run 'sudo -u gdm dbus-launch gsettings set org.gnome.desktop.session idle-delay 0';
 }
 
 =head2 turn_off_gnome_suspend
