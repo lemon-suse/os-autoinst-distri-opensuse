@@ -97,6 +97,7 @@ sub ensure_unlocked_desktop {
             # On gnome, user may not be selected and using 'ret' is not enough in this case
             else {
                 select_user_gnome($username);
+                wait_still_screen 5;
             }
         }
         if (match_has_tag('guest-disabled-display')) {
