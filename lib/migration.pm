@@ -110,8 +110,9 @@ sub deregister_dropped_modules {
             } elsif (is_sle('15+') && check_var('SLE_PRODUCT', 'sles')) {
                 remove_suseconnect_product('SLES-LTSS');
             } else {
-                zypper_call 'rm -t product SLES-LTSS';
-                zypper_call 'rm sles-ltss-release-POOL';
+                remove_suseconnect_product('SLES-LTSS');
+		    #zypper_call 'rm -t product SLES-LTSS';
+		    #zypper_call 'rm sles-ltss-release-POOL';
             }
         }
         else {
