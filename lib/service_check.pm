@@ -24,6 +24,7 @@ use warnings;
 use services::apache;
 use services::apparmor;
 use services::dhcpd;
+use services::dockerd;
 use nfs_common;
 use services::registered_addons;
 use services::hpcpackage_remain;
@@ -152,6 +153,12 @@ our $default_services = {
         support_ver => $support_ver_ge11,
         service_check_func => \&services::cups::full_cups_check
     },
+    dockerd => {
+        srv_pkg_name => 'dockerd',
+        srv_proc_name => 'dockerd',
+        support_ver => $support_ver_ge12,
+        service_check_func => \&services::dockerd::full_dockerd_check
+    },
     radvd => {
         srv_pkg_name => 'radvd',
         srv_proc_name => 'radvd',
@@ -227,7 +234,7 @@ sub _is_applicable {
 
 Install services, details of default services are defined in $default_services: 
 
-registered_addons, susefirewall, ntp, chrony, postfix, apache, dhcpd, bind, snmp, rpcbind, autofs, cups, radvd, cron, apparmor, vsftp, kdump
+registered_addons, susefirewall, ntp, chrony, postfix, apache, dhcpd, bind, snmp, rpcbind, autofs, cups, dockerd, radvd, cron, apparmor, vsftp, kdump
 
 Check service before migration, zypper install service package, enable, start and check service status
 
