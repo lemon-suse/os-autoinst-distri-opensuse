@@ -85,6 +85,8 @@ sub run {
     # data from step 2
     my ($base_repos, $package);
     my $prod = script_output 'basename `readlink /etc/products.d/baseproduct ` .prod';
+    #lemon added
+    diag "prod = $prod";
     # select a package suitable for the following test
     # the package must be installed from base product repo
     my $output = script_output 'echo $(zypper -n -x se -i -t product -s ' . $prod . ')', 300;
