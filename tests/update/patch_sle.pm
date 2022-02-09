@@ -55,7 +55,7 @@ sub patching_sle {
         minimal_patch_system();
     }
     else {
-        fully_patch_system();
+	#fully_patch_system();
         # Update origin system on zVM that is controlled by autoyast profile and reboot is done by end of autoyast installation
         # So we skip reboot here after fully patched on zVM to reduce times of reconnection to s390x
         if (!get_var('UPGRADE_ON_ZVM')) {
@@ -218,6 +218,18 @@ sub run {
     my ($self) = @_;
 
     $self->setup_sle();
+    #lemon
+    #assert_script_run 'echo export LMOD_SH_DBG_ON=1 >> /etc/bash.bashrc.local';
+    #assert_script_run "date > /var/tmp/debug_info";
+    #assert_script_run "echo rpm -qa output: >> /var/tmp/debug_info";
+    #assert_script_run "rpm -qa --last | grep kbd >> /var/tmp/debug_info";
+    #assert_script_run "echo /etc/sysconfig/console: >> /var/tmp/debug_info";
+    #assert_script_run "grep -v '^#' /etc/sysconfig/console >> /var/tmp/debug_info";
+    #assert_script_run 'echo TERM=$TERM >> /var/tmp/debug_info';
+    #upload_logs '/var/tmp/debug_info';
+    #assert_script_run 'echo export LMOD_SH_DBG_ON=1 >> /etc/bash.bashrc.local';
+    #assert_script_run "wget --quiet " . data_url('cursecheck') . " -O /var/tmp/cursecheck";
+    #assert_script_run('bash /var/tmp/cursecheck');
     $self->patching_sle();
 }
 
@@ -228,5 +240,7 @@ sub test_flags {
 sub post_fail_hook {
     my ($self) = @_;
     y2_base::save_upload_y2logs;
+    assert_script_run('bash ./data/cursescheck');
+
 }
 1;

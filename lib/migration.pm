@@ -32,6 +32,8 @@ our @EXPORT = qw(
 sub setup_sle {
     select_console 'root-console';
 
+    #assert_script_run 'echo export LMOD_SH_DBG_ON=1 >> /etc/bash.bashrc.local';
+    assert_script_run("/usr/lib/systemd/systemd-vconsole-setup");
     # Stop packagekitd
     if (is_sle('12+')) {
         quit_packagekit;
