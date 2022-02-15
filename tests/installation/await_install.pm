@@ -1,7 +1,7 @@
 # SUSE's openQA tests
 #
 # Copyright 2009-2013 Bernhard M. Wiedemann
-# Copyright 2012-2021 SUSE LLC
+# Copyright 2012-2022 SUSE LLC
 # SPDX-License-Identifier: FSFAP
 
 # Summary: Monitor installation progress and wait for "reboot now" dialog
@@ -243,5 +243,11 @@ sub ssh_password_possibility {
     }
 }
 
-
+sub post_fail_hook {
+    my ($self) = @_;
+    select_console 'log-console';
+    $self->save_upload_y2logs;
+    set_var('Y2LOGS_UPLOADED', 1);
+    $self->SUPER::post_fail_hook;
+}
 1;

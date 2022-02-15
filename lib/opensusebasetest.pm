@@ -219,8 +219,8 @@ done", "binaries-with-missing-libraries.txt", {timeout => 60, noupload => 1});
         clear_console;
     }
 
-    script_run 'tar cvvJf problem_detection_logs.tar.xz *';
-    upload_logs('problem_detection_logs.tar.xz', failok => 1);
+    script_run('tar cvvJf problem_detection_logs.tar.xz *');
+    upload_logs('problem_detection_logs.tar.xz', failok => 1, timeout => 180);
     enter_cmd "popd";
 }
 
