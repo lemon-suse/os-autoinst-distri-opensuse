@@ -252,6 +252,8 @@ sub install_services {
     my ($service) = @_;
     # turn off lmod shell debug information
     assert_script_run('echo export LMOD_SH_DBG_ON=1 >> /etc/bash.bashrc.local');
+    #debug lemon
+    zypper_call('rm btrfsmaintenance');
     # turn off screen saver
     if (check_var('DESKTOP', 'gnome')) {
         if (is_s390x) {
