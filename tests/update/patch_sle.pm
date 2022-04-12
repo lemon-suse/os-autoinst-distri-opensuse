@@ -26,6 +26,14 @@ sub patching_sle {
     my $orig_videomode = get_var('VIDEOMODE', '');
     my $orig_scc_register = get_var('SCC_REGISTER', '');
 
+    #lemon
+    my $str = assert_script_run("blkid | grep 'TYPE=\"swap\"' | awk '{printf \$2}'");
+    diag "str=$str";
+    my $uuidstr = assert_script_run('echo ${str#"UUID="}');
+    diag "uuidstr=$uuidstr";
+    assert_script_run('sed -i "s/\(resume=*\)[^ ]*/noresume/g" /etc/default/grub');
+    assert_script_run("grub2-mkconfig -o /boot/grub2/grub.cfg");
+
     # Do not attempt to log into the desktop of a system installed with SLES4SAP
     # being prepared for upgrade, as it does not have an unprivileged user to test
     # with other than the SAP Administrator

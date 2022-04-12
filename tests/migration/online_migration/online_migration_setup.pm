@@ -25,6 +25,15 @@ sub run {
     # we don't care about source system start time because our SUT is upgraded one
     $self->wait_boot(textmode => !is_desktop_installed, bootloader_time => 400, ready_time => 600, nologin => is_sles4sap);
     $self->setup_migration();
+
+    select_console 'root-console';
+    my $str = assert_script_run("blkid | grep 'TYPE=\"swap\"' | awk '{printf \$2}'");
+    diag "str=$str";
+    my $uuidstr = assert_script_run('echo ${str#"UUID="}');
+    diag "uuidstr=$uuidstr";
+    assert_script_run('sed -i "s/\(resume=*\)[^ ]*/noresume/g" /etc/default/grub');
+    assert_script_run("cat /etc/default/grub");
+    assert_script_run("grub2-mkconfig -o /boot/grub2/grub.cfg");
 }
 
 sub test_flags {
