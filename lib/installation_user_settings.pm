@@ -48,6 +48,9 @@ sub enter_rootinfo {
     assert_screen "inst-rootpassword";
     type_password_and_verification;
     assert_screen "rootpassword-typed";
+    #lemon
+    #wait_still_screen 5;
+    sleep 5;
     send_key $cmd{next};
     await_password_check;
 }
