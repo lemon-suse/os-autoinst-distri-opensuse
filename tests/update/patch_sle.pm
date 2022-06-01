@@ -26,6 +26,10 @@ sub patching_sle {
     my $orig_videomode = get_var('VIDEOMODE', '');
     my $orig_scc_register = get_var('SCC_REGISTER', '');
 
+    #lemon
+    script_run 'la /sapinst';
+    script_run 'la /sapinst/unattended/sapinst.log';
+
     # Do not attempt to log into the desktop of a system installed with SLES4SAP
     # being prepared for upgrade, as it does not have an unprivileged user to test
     # with other than the SAP Administrator

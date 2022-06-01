@@ -21,6 +21,8 @@ use Utils::Architectures;
 
 sub run {
     select_console('root-console');
+    #lemon
+    script_run 'la /sapinst/unattended/sapinst.log';
     my @cmds;
     push @cmds, "source /etc/default/grub";
     push @cmds, 'new_cmdline=`echo $GRUB_CMDLINE_LINUX_DEFAULT | sed \'s/\(^\| \)quiet\($\| \)/ /\'`';
@@ -43,6 +45,11 @@ sub run {
             script_run $cmd;
         }
     }
+    #lemon
+    script_run 'la /sapinst/';
+    script_run 'la /sapinst/unattended/';
+    script_run 'la /sapinst/unattended/sapinst.log';
+    script_run 'cp /sapinst/unattended/sapinst.log /var/log'
 }
 
 1;

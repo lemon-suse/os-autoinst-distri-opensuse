@@ -34,6 +34,8 @@ sub run {
 
     prepare_serial_console;
 
+    #lemon
+    script_run 'la /sapinst/unattended/sapinst.log';
     if (!check_var('DESKTOP', 'textmode')) {
         # Make sure packagekit is not running, or it will conflict with SUSEConnect.
         quit_packagekit;

@@ -799,6 +799,8 @@ Upload NetWeaver installation logs from SUT.
 sub upload_nw_install_log {
     my ($self) = @_;
 
+    #lemon
+    script_run 'la /sapinst/unattended/sapinst.log';
     $self->save_and_upload_log('ls -alF /sapinst/unattended', '/tmp/nw_unattended_ls.log');
     $self->save_and_upload_log('ls -alF /sbin/mount*', '/tmp/sbin_mount_ls.log');
     upload_logs('/tmp/check-nw-media', failok => 1);

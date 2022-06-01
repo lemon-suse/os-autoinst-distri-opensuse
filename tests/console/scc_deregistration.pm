@@ -14,7 +14,11 @@ sub run {
     return unless (get_var('SCC_REGISTER') || get_var('HDD_SCC_REGISTERED'));
 
     select_console 'root-console';
+    #lemon
+    script_run 'la /sapinst/unattended/sapinst.log';
     scc_deregistration;
+    #lemon
+    script_run 'la /sapinst/unattended/sapinst.log';
 }
 
 1;
