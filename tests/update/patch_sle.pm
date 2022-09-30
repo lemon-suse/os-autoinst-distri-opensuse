@@ -93,9 +93,15 @@ sub patching_sle {
     # cleanup useless snapshots to save diskspace if we set REMOVE_SNAPSHOTS
     cleanup_disk_space if get_var('REMOVE_SNAPSHOTS');
 
+    #lemon
+    zypper_call("lr -u");
+    save_screenshot;
     # Remove test repos after system being patched
     remove_test_repositories;
 
+    #lemon
+    zypper_call("lr -u");
+    save_screenshot;
     #migration with LTSS is not possible, remove it before upgrade
     deregister_dropped_modules;
 
