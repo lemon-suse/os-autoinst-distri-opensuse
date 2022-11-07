@@ -155,4 +155,11 @@ sub run {
     $self->ibft_validation;
 }
 
+sub post_fail_hook {
+    my ($self) = @_;
+    select_console 'log-console';
+    y2_base::save_upload_y2logs;
+    $self->SUPER::post_fail_hook;
+}
+
 1;
