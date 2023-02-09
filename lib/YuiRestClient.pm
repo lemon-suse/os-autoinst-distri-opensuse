@@ -92,7 +92,10 @@ sub init_port {
     $port += get_var('VNC') =~ /(?<vncport>\d+)/ ? $+{vncport} : int(rand(1000));
     die "Cannot set port for YUI REST API" unless $port;
 
-    set_var('YUI_PORT', $port);
+    #set_var('YUI_PORT', $port);
+    #set_var('YUI_PORT', $port) if !(get_var('YUI_PORT'));
+    $port = '39095';
+    diag "port=$port";
     return $port;
 }
 

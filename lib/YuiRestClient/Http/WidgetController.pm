@@ -52,6 +52,7 @@ sub find {
         params => $args->{filter}
     );
 
+    YuiRestClient::Logger->get_instance()->debug('find in');
     YuiRestClient::Logger->get_instance()->debug('Finding widget by url: ' . $uri);
 
     YuiRestClient::Wait::wait_until(object => sub {

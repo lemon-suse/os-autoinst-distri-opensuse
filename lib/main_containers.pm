@@ -84,6 +84,9 @@ sub load_host_tests_podman {
     my ($run_args) = @_;
     # podman package is only available as of 15-SP1
     unless (is_sle("<15-sp1")) {
+	loadtest 'console/setup_libyui_running_system';
+	loadtest 'containers/podman_yast_firewall';
+	return;
         load_container_engine_test($run_args);
         # In Public Cloud we don't have internal resources
         load_image_test($run_args) unless is_public_cloud || is_alp;
