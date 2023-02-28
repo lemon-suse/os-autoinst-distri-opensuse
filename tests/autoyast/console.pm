@@ -16,6 +16,11 @@ sub run {
     my ($self) = @_;
     $self->wait_boot if is_ipmi;
     select_console 'root-console';
+    #lemon
+    assert_script_run 'ip a';
+    assert_script_run 'ip link show';
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr_console';
+    upload_logs("/tmp/myipaddr_console");
 }
 
 1;

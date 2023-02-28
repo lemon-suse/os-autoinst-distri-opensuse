@@ -30,6 +30,9 @@ sub run {
     my ($self) = @_;
     select_console 'root-console';
 
+    #lemon
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr_systemprepare';
+    upload_logs("/tmp/myipaddr_systemprepare");
     ensure_serialdev_permissions;
 
     prepare_serial_console;

@@ -17,6 +17,9 @@ my $service_type = 'Systemd';
 
 sub install_service {
     # dhcp contains common files while dhcp-server is for server.
+    #lemon
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr_install';
+    upload_logs("/tmp/myipaddr_install");
     zypper_call('in dhcp');
     zypper_call('in dhcp-server');
 }
@@ -25,6 +28,9 @@ sub install_service {
 sub get_subnet_3 {
     my ($iface) = @_;
     my $ip;
+    #lemon
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr';
+    upload_logs("/tmp/myipaddr");
     if ($service_type eq 'Systemd') {
         $ip = script_output("ip -br -4 addr | grep $iface | sed 's/\\s\\+/:/g' | cut -d ':' -f 3 | cut -d '/' -f 1", type_command => 1);
     } else {
@@ -37,6 +43,9 @@ sub get_subnet_3 {
 sub config_service {
     # Get first active network interface name.
     my $iface;
+    #lemon
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr';
+    upload_logs("/tmp/myipaddr");
     if ($service_type eq 'Systemd') {
         $iface = script_output("ip -br -4 addr | grep -v '^lo' | grep 'UP' | head -n 1 | cut -d ' ' -f 1", type_command => 1);
     } else {

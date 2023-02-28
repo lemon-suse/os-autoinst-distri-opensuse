@@ -99,6 +99,8 @@ sub patching_sle {
     #migration with LTSS is not possible, remove it before upgrade
     deregister_dropped_modules;
 
+    assert_script_run 'ip -br -4 addr > /tmp/myipaddr_patchsle';
+    upload_logs("/tmp/myipaddr_patchsle");
     if (get_var('FLAVOR', '') =~ /-(Updates|Incidents)$/ || get_var('KEEP_REGISTERED')) {
         # The system is registered.
         set_var('HDD_SCC_REGISTERED', 1);
