@@ -84,7 +84,7 @@
       <partitions config:type="list">
 	<partition>
           <mount>/</mount>
-	  <filesystem config:type="symbol">btrfs</filesystem>
+	  <filesystem config:type="symbol">ext4</filesystem>
           <size>max</size>
         </partition>
       </partitions>
