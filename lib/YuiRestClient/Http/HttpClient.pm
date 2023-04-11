@@ -6,6 +6,9 @@ use warnings;
 
 use Mojo::UserAgent;
 use YuiRestClient::Logger;
+use testapi;
+use Mojo::JSON 'encode_json';
+use Data::Dumper;
 
 my $ua = Mojo::UserAgent->new;
 
@@ -15,6 +18,10 @@ sub http_get {
     my $url = Mojo::URL->new($args{uri});
     sleep(1) if $args{add_delay};
     my $res = $ua->get($url)->result;
+    #lemon
+    my $c = $res->body;
+    diag "!!!=body==!!!!! $c";
+
     return $res if $res->is_success;
     # Die if non OK response code
     YuiRestClient::Logger->get_instance()->error('Widget not found by url: ' . $url);
