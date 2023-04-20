@@ -1,0 +1,8 @@
+---
+name: d-installer_auto
+description: >
+  First D-installer test
+schedule:
+  - agama/url_prepare
+  - installation/bootloader_start
+  - agama/wait_auto_reboot
