@@ -57,6 +57,7 @@ sub run {
     unless (is_network_manager_default) {
         send_key $cmd{overview_tab};
         assert_screen 'yast2-network-settings_overview';
+	wait_still_screen 2;
         send_key $cmd{add_device};
         # Older than 15-SP2 versions require two steps to select device type: expand the list and then select the option.
         # On 15-SP2 it is a list of radio buttons, so only one step with selecting the radio is needed.
