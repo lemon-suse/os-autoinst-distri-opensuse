@@ -27,6 +27,8 @@ use Utils::Backends;
 use version_utils 'is_sle';
 use ipmi_backend_utils;
 
+use bootloader_setup 'change_grub_config';
+
 sub run {
     my ($self) = @_;
     my $dasd_path = get_var('DASD_PATH', '0.0.0150');
@@ -78,6 +80,8 @@ sub run {
         # avoid known issue in FIPS mode: bsc#985969
         $self->get_ip_address();
     }
+
+    change_grub_config('=.*', '=-1', 'GRUB_TIMEOUT', '', 1);
 
     # We don't change network setup here, so should work
     # We don't parse logs unless it's detect_yast2_failures scenario
