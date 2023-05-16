@@ -4,7 +4,7 @@
 # Copyright 2012-2017 SUSE LLC
 # SPDX-License-Identifier: FSFAP
 
-# Package: rpm-build yast2-network yast2-http-server
+# Package: rpm-build yast2-network
 # Summary: Support for the new tests for yast command line
 # Maintainer: Ancor Gonzalez Sosa <ancor@suse.de>
 
@@ -14,7 +14,7 @@ use warnings;
 use testapi;
 use utils qw(zypper_call systemctl);
 use repo_tools 'prepare_source_repo';
-use version_utils qw(is_sle is_leap);
+use version_utils qw(is_sle is_leap is_tumbleweed);
 
 # Executes the command line tests from a yast repository (in master or in the
 # given optional branch) using prove
@@ -53,7 +53,7 @@ sub run {
 
     # Run YaST CLI tests
     run_yast_cli_test('yast2-network');
-    run_yast_cli_test('yast2-http-server') if (is_leap("<16.0") || is_sle("<16"));
+    run_yast_cli_test('yast2-http-server') if ((is_leap("<16.0") && (! is_tumbleweed)) || is_sle("<16"));
 }
 
 1;
