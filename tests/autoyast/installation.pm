@@ -37,6 +37,7 @@ use scheduler 'get_test_suite_data';
 use autoyast 'test_ayp_url';
 use y2_logs_helper qw(upload_autoyast_profile upload_autoyast_schema);
 use validate_encrypt_utils "validate_encrypted_volume_activation";
+use serial_terminal 'select_serial_terminal';
 
 my $confirmed_licenses = 0;
 my $stage = 'stage1';
@@ -322,6 +323,8 @@ sub run {
 
     # Cannot verify second stage properly on s390x, so reconnect to already installed system
     if (is_s390x) {
+        select_serial_terminal;
+        script_run("cat /var/log/YaST2/y2log");
         reconnect_mgmt_console(timeout => 700, grub_timeout => 180);
         return;
     }
