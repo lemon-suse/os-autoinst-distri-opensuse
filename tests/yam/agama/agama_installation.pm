@@ -10,6 +10,7 @@ use strict;
 use warnings;
 
 use testapi qw(
+  get_var
   assert_screen
   assert_script_run
   select_console
@@ -22,6 +23,10 @@ sub run {
     assert_screen('agama_product_selection', 120);
     $testapi::password = 'linux';
     select_console 'root-console';
+
+    my $update_repo = get_var('PLAYWRIGHT_REPO');
+    assert_script_run("yupdate patch $update_repo main", timeout => 300);
+    assert_script_run("mv /usr/share/e2e-agama-playwright/tests/take_screenshots.spec.ts /usr/share/agama-playwright/tests/take_screenshots.spec.ts");
 
     assert_script_run('RUN_INSTALLATION=1 playwright test --trace on --project chromium --config /usr/share/agama-playwright take_screenshots', timeout => 600);
 
