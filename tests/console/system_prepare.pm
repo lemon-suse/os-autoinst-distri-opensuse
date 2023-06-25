@@ -32,6 +32,18 @@ sub run {
 
     ensure_serialdev_permissions;
 
+    #lemon
+    # Stop packagekitd
+    if (is_sle('12+')) {
+        quit_packagekit;
+    }
+    else {
+        assert_script_run "chmod 444 /usr/sbin/packagekitd";
+    }
+    wait_quit_zypper;
+    assert_script_run 'zypper pt -i | tee /tmp/zypper-pt';
+    upload_logs '/tmp/zypper-pt';
+
     prepare_serial_console;
 
     if (!check_var('DESKTOP', 'textmode')) {
