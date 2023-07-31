@@ -24,6 +24,7 @@ sub run {
     $testapi::password = 'linux';
     select_console 'root-console';
 
+    assert_script_run("yupdate patch lemon-suse/e2e-agama-playwright verify-ALP-Dolomite-replace-ALP-Micro", timeout => 300);
     assert_script_run('RUN_INSTALLATION=1 playwright test --trace on --project chromium --config /usr/share/e2e-agama-playwright lvm', timeout => 1200);
     upload_logs('./test-results/lvm-Use-logical-volume-management-LVM-as-storage-device-for-installation-chromium/trace.zip');
 
