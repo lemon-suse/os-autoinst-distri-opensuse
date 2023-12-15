@@ -29,7 +29,9 @@ sub run {
         turn_off_gnome_show_banner;
     }
     select_console 'root-console';
-
+    
+    # lemon
+    assert_script_run 'zypper ar --refresh https://build.suse.de/package/show/home:fbui:branches:SUSE:SLE-15-SP6:GA/bind test-pkg';
     # Mark the hdd has been patched
     set_var('PATCHED_SYSTEM', 1) if get_var('PATCH');
 

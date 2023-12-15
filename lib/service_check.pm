@@ -296,8 +296,11 @@ sub install_services {
                 }
                 zypper_call "in $srv_pkg_name";
                 common_service_action($srv_proc_name, $service_type, 'enable');
+		common_service_action($srv_proc_name, $service_type, 'is-enabled');
                 common_service_action($srv_proc_name, $service_type, 'start');
                 common_service_action($srv_proc_name, $service_type, 'is-active');
+		#lemon
+                assert_script_run('zypper se insserv-compat');
             }
         };
         if ($@) {
@@ -342,6 +345,8 @@ sub check_services {
                     $service->{$s}->{service_check_func}->(%{$service->{$s}}, service_type => $service_type, stage => 'after');
                     next;
                 }
+		#lemon
+		assert_script_run('zypper se insserv-compat');
                 common_service_action($srv_proc_name, $service_type, 'is-active');
             }
         };
