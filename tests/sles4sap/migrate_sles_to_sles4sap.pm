@@ -23,8 +23,12 @@ sub run {
     my $regcode = get_required_var('SCC_REGCODE_SLES4SAP');
     my $cmd = '/usr/sbin/Migrate_SLES_to_SLES-for-SAP.sh';
 
+    select_console 'root-console';
+    assert_script_run('zypper up', 300);
+    script_run('rpm -qi suseconnect-ng');
     select_serial_terminal;
-
+    #lemon
+    assert_script_run('zypper up', 300);
     # Clean up and re-register not to affect other job which are sharing same qcow2
     if (is_sle('15+')) {
         cleanup_registration();
