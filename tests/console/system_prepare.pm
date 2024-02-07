@@ -30,6 +30,7 @@ sub run {
     my ($self) = @_;
     select_console 'root-console';
 
+    script_run('rpm -qi suseconnect-ng');
     ensure_serialdev_permissions;
 
     prepare_serial_console;
@@ -43,7 +44,8 @@ sub run {
 
     # Register the modules after media migration, so it can do regession
     if (get_var('MEDIA_UPGRADE') && get_var('DO_REGISTRY')) {
-        assert_script_run "SUSEConnect -r " . get_var('SCC_REGCODE') . " --url " . get_var('SCC_URL');
+	#assert_script_run "SUSEConnect -r " . get_var('SCC_REGCODE') . " --url " . get_var('SCC_URL');
+	add_suseconnect_product(uc get_var('SLE_PRODUCT'), undef, undef, "-r " . get_var('SCC_REGCODE') . " --url " . get_var('SCC_URL'), 300, 1);
         if (is_sle('15+') && check_var('SLE_PRODUCT', 'sles')) {
             add_suseconnect_product(get_addon_fullname('base'), undef, undef, undef, 300, 1);
             add_suseconnect_product(get_addon_fullname('serverapp'), undef, undef, undef, 300, 1);
