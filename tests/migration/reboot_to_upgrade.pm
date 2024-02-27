@@ -30,6 +30,9 @@ sub run {
     }
     select_console 'root-console';
 
+    #lemon
+    assert_script_run("unlink /etc/systemd/system/default.target");
+    assert_script_run("ln -s /usr/lib/systemd/system/runlevel3.target /etc/systemd/system/default.target");
     # Mark the hdd has been patched
     set_var('PATCHED_SYSTEM', 1) if get_var('PATCH');
 

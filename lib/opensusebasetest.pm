@@ -762,7 +762,7 @@ behave as if the env var NOAUTOLOGIN was set.
 sub wait_boot_past_bootloader {
     my ($self, %args) = @_;
     my $textmode = $args{textmode};
-    my $ready_time = $args{ready_time} // 500;
+    my $ready_time = $args{ready_time} // 1500;
     my $nologin = $args{nologin};
     my $forcenologin = $args{forcenologin};
 

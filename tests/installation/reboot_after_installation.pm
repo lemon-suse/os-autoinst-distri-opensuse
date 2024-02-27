@@ -24,6 +24,17 @@ use YuiRestClient;
 sub run {
     select_console 'installation' unless get_var('REMOTE_CONTROLLER');
 
+    #select_console 'root-console';
+    #lemon
+    #my $stor_inst = "/var/log/YaST2/storage-inst/*committed.yml";
+    #my $boot_hd = script_output("cat $stor_inst | grep -B4 'mount_point: \"/boot\"' | grep name | awk -F \\\" '{print \$2}'");
+    #assert_script_run("mount $boot_hd /mnt");
+    #assert_script_run("ln -s /mnt/usr/lib/systemd/system/runlevel3.target /mnt/etc/systemd/system/default.target");
+    #assert_script_run('umount /mnt');
+
+    #assert_script_run("ln -s /usr/lib/systemd/system/runlevel3.target /etc/systemd/system/default.target");
+    #select_console 'installation' unless get_var('REMOTE_CONTROLLER');
+
     # svirt: Make sure we will boot from hard disk next time
     if (check_var('VIRSH_VMM_FAMILY', 'kvm') || check_var('VIRSH_VMM_FAMILY', 'xen')) {
         my $svirt = console('svirt');
