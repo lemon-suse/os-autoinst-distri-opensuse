@@ -87,6 +87,8 @@ sub check_buildid {
 sub run {
     select_console('root-console');
     assert_script_run('setterm -blank 0') unless (is_s390x);
+    #lemon
+    assert_script_run('cd /etc/ssh; grep -nr PermitRootLogin');
 
     script_run('zypper lr | tee /tmp/zypperlr.txt', 200);
 
