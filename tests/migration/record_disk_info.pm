@@ -15,6 +15,10 @@ use migration 'record_disk_info';
 sub run {
     select_console 'root-console';
 
+    #lemon
+    assert_script_run "systemctl disable kdump";
+    assert_script_run "systemctl mask kdump";
+
     # The disk space usage info would be helpful to debug upgrade failure
     # with disk exhausted error
     record_disk_info;
