@@ -425,6 +425,7 @@
       <pattern>gnome_basic</pattern>
       <pattern>minimal_base</pattern>
       <pattern>x11</pattern>
+      <pattern>gnome-gnome_basic</pattern>
     </patterns>
     <remove-packages config:type="list">
       <package>glibc-32bit</package>
