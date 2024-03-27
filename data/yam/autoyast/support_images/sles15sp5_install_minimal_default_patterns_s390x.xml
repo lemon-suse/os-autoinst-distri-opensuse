@@ -126,6 +126,7 @@
       <pattern>apparmor</pattern>
       <pattern>base</pattern>
       <pattern>minimal_base</pattern>
+      <pattern>enhanced_base</pattern>
     </patterns>
     <products t="list">
       <product>SLES</product>
