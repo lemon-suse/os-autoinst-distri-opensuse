@@ -322,7 +322,8 @@ sub run {
 
     # Cannot verify second stage properly on s390x, so reconnect to already installed system
     if (is_s390x) {
-        reconnect_mgmt_console(timeout => 1400, grub_timeout => 360);
+	#reconnect_mgmt_console(timeout => 1400, grub_timeout => 360);
+	reconnect_mgmt_console(timeout => 3000, grub_timeout => 360);
         return;
     }
     # For powerVM need to switch to mgmt console to handle the reboot properly
