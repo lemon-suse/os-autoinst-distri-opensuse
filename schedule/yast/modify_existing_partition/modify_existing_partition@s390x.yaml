@@ -6,6 +6,8 @@ description: >
 vars:
   YUI_REST_API: 1
 schedule:
+  system_role:
+    - installation/system_role/accept_selected_role_SLES_with_GNOME
   suggested_partitioning:
     - installation/partitioning/modify_existing_partition
   system_preparation: []
