@@ -153,6 +153,30 @@
       <pattern>documentation</pattern>
       <pattern>gnome-basic</pattern>
       <pattern>x11</pattern>
+      <pattern>directory_server</pattern>
+      <pattern>documentation</pattern>
+      <pattern>file_server</pattern>
+      <pattern>fips</pattern>
+      <pattern>gateway_server</pattern>
+      <pattern>gnome-basic</pattern>
+      <pattern>kvm_server</pattern>
+      <pattern>kvm_tools</pattern>
+      <pattern>lamp_server</pattern>
+      <pattern>mail_server</pattern>
+      <pattern>yast2</pattern>
+      <pattern>ofed</pattern>
+      <pattern>oracle_server</pattern>
+      <pattern>printing</pattern>
+      <pattern>sap_server</pattern>
+      <pattern>sles-Basis-Devel-32bit</pattern>
+      <pattern>sles-Minimal-32bit</pattern>
+      <pattern>sles-WBEM-32bit</pattern>
+      <pattern>sles-apparmor-32bit</pattern>
+      <pattern>sles-base-32bit</pattern>
+      <pattern>sles-dhcp_dns_server-32bit</pattern>
+      <pattern>sles-directory_server-32bit</pattern>
+      <pattern>sles-documentation-32bit</pattern>
+      <pattern>sles-file_server-32bit</pattern>
     </patterns>
   </software>
   <services-manager>
