@@ -910,10 +910,11 @@ sub scc_deregistration {
         quit_packagekit;
         wait_for_purge_kernels;
         assert_script_run('SUSEConnect --version');
-        if ((check_var('UPGRADE_TARGET_VERSION', '15-SP3')) && (is_sle('15-SP1+'))) {
+        if (check_var('UPGRADE_TARGET_VERSION', '15-SP3') && check_var('UPGRADE', '1') && is_sle('15-SP1+')) {
             # Workaround for bsc#1189543, need register python2 before de-register system
-            record_soft_failure 'bsc#1189543 - Stale python2 module blocks de-registration after system migration';
-            add_suseconnect_product('sle-module-python2');
+	    #record_soft_failure 'bsc#1189543 - Stale python2 module blocks de-registration after system migration';
+	    #add_suseconnect_product('sle-module-python2');
+	    sleep 1;
         }
         # We don't need to pass $debug_flag to SUSEConnect, because it's already set
         my $deregister_ret = script_run("SUSEConnect --de-register --debug > /tmp/SUSEConnect.debug 2>&1", 300);
