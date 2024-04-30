@@ -268,6 +268,7 @@
     </storage>
     % }
   </general>
+  %}
   % if ($check_var->('ARCH', 'aarch64')) {
   <partitioning config:type="list">
     <drive>
@@ -425,7 +426,6 @@
     <FW_DEV_EXT>eth0</FW_DEV_EXT>
     <FW_SERVICES_ACCEPT_EXT>0/0,tcp,22</FW_SERVICES_ACCEPT_EXT>
   </firewall>
-  % }
   <report>
     <errors>
       <log config:type="boolean">true</log>
