@@ -15,6 +15,14 @@ use migration;
 
 sub run {
     select_console 'root-console';
+    script_run 'zypper ar --refresh http://download.suse.de/ibs/Devel:/SCC:/suseconnect/SLE_15_SP3_Update/Devel:SCC:suseconnect.repo';
+    # script_run 'zypper --non-interactive --gpg-auto-import-keys in suseconnect-ng-1.9.0-150300.92.1.x86_64 suseconnect-ruby-bindings-1.9.0-150300.92.1.x86_64 libsuseconnect-1.9.0-150300.92.1.x86_64';
+    script_run 'zypper --non-interactive --gpg-auto-import-keys in suseconnect-ng-1.9.0-150300.92.1.aarch64 suseconnect-ruby-bindings-1.9.0-150300.92.1.aarch64 libsuseconnect-1.9.0-150300.92.1.aarch64';
+    #script_run 'zypper --non-interactive --gpg-auto-import-keys in suseconnect-ruby-bindings';
+    #script_run 'zypper --non-interactive --gpg-auto-import-keys in libsuseconnect';
+    script_run 'rpm -qa suseconnect-ng';
+    script_run 'rpm -qa suseconnect-ruby-bindings';
+    script_run 'rpm -qa libsuseconnect';
     register_system_in_textmode;
 }
 
