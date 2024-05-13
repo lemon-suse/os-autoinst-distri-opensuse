@@ -86,6 +86,12 @@
     </interfaces>
     <keep_install_network config:type="boolean">true</keep_install_network>
   </networking>
+  <partitioning config:type="list">
+    <drive>
+      <device>/dev/sda</device>
+      <initialize config:type="boolean">true</initialize>
+    </drive>
+  </partitioning>
   <firewall>
     <default_zone>public</default_zone>
     <enable_firewall config:type="boolean">true</enable_firewall>
