@@ -13,6 +13,7 @@ use warnings;
 use testapi;
 use utils 'assert_screen_with_soft_timeout';
 use version_utils qw(is_sle is_opensuse is_leap);
+use y2_base 'save_upload_y2logs';
 
 sub run {
     if (get_var('ENCRYPT')) {
@@ -92,6 +93,12 @@ sub run {
             send_key $cmd{next};
         }
     }
+}
+
+sub post_fail_hook {
+    my ($self) = @_;
+    select_console 'root-console';
+    y2_base::save_upload_y2logs($self, skip_logs_investigation => 1);
 }
 
 1;
