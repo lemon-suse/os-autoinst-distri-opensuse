@@ -14,9 +14,10 @@ use utils 'clear_console';
 sub run {
     assert_screen('agama-install-finished', 1200);
 
-    select_console 'root-console';
-    clear_console;
-    enter_cmd "reboot";
+    assert_and_click('reboot');
+    #select_console 'root-console';
+    #clear_console;
+    #enter_cmd "reboot";
 
     # For agama test, it is too short time to match the grub2, so we create
     # a new needle to avoid too much needles loaded.
