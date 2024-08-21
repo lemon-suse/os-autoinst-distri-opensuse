@@ -11,7 +11,8 @@ use warnings;
 use testapi;
 
 sub run {
-    assert_screen('agama-product-selection', 300);
+    select_console('root-console', await_console => 1, timeout =>300);
+    script_run('for i in $(seq 60); do curl -s -o /dev/null http://localhost && exit 0; echo -n .; sleep 1; done');
 }
 
 1;
