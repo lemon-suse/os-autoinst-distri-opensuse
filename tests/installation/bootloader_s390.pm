@@ -90,7 +90,8 @@ sub prepare_parmfile {
     }
     else {
         if (get_var('AGAMA')) {
-            $params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('ISO');
+            #$params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('ISO');
+	    $params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . 'agama-installer.s390x-9.0.0-openSUSE-Build17.9/agama-installer.s390x-9.0.0-openSUSE-Build17.9.iso';
         }
         else {
             $params .= " install=" . $instsrc . $repo . " ";
