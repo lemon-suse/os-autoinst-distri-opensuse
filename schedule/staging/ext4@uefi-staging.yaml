@@ -2,8 +2,6 @@
 name:           ext4@uefi-staging
 description:    >
   Test for ext4 filesystem.
-vars:
-  YUI_REST_API: 1
 conditional_schedule:
   access_beta_distribution:
     BETA:
