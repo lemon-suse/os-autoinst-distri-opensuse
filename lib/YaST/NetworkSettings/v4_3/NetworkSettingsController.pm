@@ -17,6 +17,7 @@ use YaST::NetworkSettings::ActionButtons;
 use YaST::Warning::Notification;
 use YaST::NetworkSettings::v4_3::OverviewTab;
 use YuiRestClient;
+use testapi;
 
 sub new {
     my ($class, $args) = @_;

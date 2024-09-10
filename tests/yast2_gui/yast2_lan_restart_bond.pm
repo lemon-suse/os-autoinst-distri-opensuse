@@ -28,6 +28,7 @@ use warnings;
 use testapi;
 use y2lan_restart_common qw(initialize_y2lan open_network_settings check_network_status wait_for_xterm_to_be_visible clear_journal_log close_xterm);
 use YuiRestClient;
+use version_utils qw(is_sle);
 
 my $network_settings;
 
@@ -51,7 +52,12 @@ sub run {
     record_info('bond', 'Verify network is not restarted after saving bond device settings without changes.');
     open_network_settings;
     $network_settings->view_bond_slave_without_editing();
+    assert_screen('yast2_lan_overview_tab_selected');
+    apply_workaround_poo124652('yast2_lan_overview_tab_selected') if (is_sle('>=15-SP4'));
+    sleep 30;
+    apply_workaround_poo124652('yast2_lan_overview_tab_selected') if (is_sle('>=15-SP4'));
     $network_settings->cancel_changes();
+    sleep 30;
     $network_settings->accept_all_changes_will_be_lost();
     wait_for_xterm_to_be_visible();
     check_network_status('no_restart_or_reload', 'bond');

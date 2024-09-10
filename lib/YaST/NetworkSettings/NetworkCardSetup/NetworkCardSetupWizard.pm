@@ -22,6 +22,7 @@ sub new {
 sub press_next {
     my ($self, $page_needle) = @_;
     assert_screen($page_needle);
+    sleep 20;
     send_key('alt-n');
 }
 
