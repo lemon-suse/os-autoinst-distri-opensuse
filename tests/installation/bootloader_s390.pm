@@ -90,7 +90,8 @@ sub prepare_parmfile {
     }
     else {
         if (get_var('AGAMA')) {
-            $params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('ISO');
+            #$params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('ISO');
+	    $params .= shorten_url(" root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('ISO'));
         }
         else {
             $params .= " install=" . $instsrc . $repo . " ";
