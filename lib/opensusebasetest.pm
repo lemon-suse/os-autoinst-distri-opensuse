@@ -714,10 +714,14 @@ sub wait_boot_textmode {
     my $textmode_needles = [qw(linux-login emergency-shell emergency-mode)];
     # 2nd stage of autoyast can be considered as linux-login
     push @{$textmode_needles}, 'autoyast-init-second-stage' if get_var('AUTOYAST');
+    push @{$textmode_needles}, 'agama-password-prompt' if (get_var('AGAMA') && check_var('ENCRYPT', '1'));
     # Soft-fail for user_defined_snapshot in extra_tests_on_gnome and extra_tests_on_gnome_on_ppc
     # if not able to boot from snapshot
     if (get_var('EXTRATEST', '') !~ /desktop/) {
         assert_screen $textmode_needles, $ready_time;
+	if (match_has_tag('agama-password-prompt')) {
+	    type_password;
+        }
     }
     elsif (is_sle('<15') && !check_screen $textmode_needles, $ready_time / 2) {
         # We are not able to boot due to bsc#980337
