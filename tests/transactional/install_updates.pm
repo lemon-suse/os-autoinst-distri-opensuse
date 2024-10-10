@@ -40,6 +40,8 @@ sub run {
     add_test_repositories;
     record_info('Updates', script_output('zypper lu'));
     my $ret = trup_call('up', timeout => 300, proceed_on_failure => 1);
+    #lemon
+    assert_script_run('zypper se -s selinux-policy');
     process_reboot(trigger => 1);
 }
 

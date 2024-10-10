@@ -21,7 +21,9 @@ schedule:
   - transactional/host_config
   - console/suseconnect_scc
   - '{{live_patching}}'
+  - console/journal_check
   - transactional/install_updates
+  - console/journal_check
   - migration/online_migration/zypper_migration
   - microos/networking
   - microos/libzypp_config
