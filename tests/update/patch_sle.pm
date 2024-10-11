@@ -104,6 +104,21 @@ sub patching_sle {
     #migration with LTSS is not possible, remove it before upgrade
     deregister_dropped_modules;
 
+    #lemon
+    assert_script_run('df -k > /tmp/dfk.log');
+    upload_logs("/tmp/dfk.log");
+    assert_script_run('cat /etc/fstab > /tmp/fstab.log');
+    upload_logs("/tmp/fstab.log");
+    assert_script_run('fdisk -l > /tmp/fdisk.log');
+    upload_logs("/tmp/fdisk.log");
+    assert_script_run('cat /boot/grub2/grub.cfg > /tmp/grub.cfg');
+    upload_logs("/tmp/grub.cfg");
+    assert_script_run('cat /etc/default/grub_installdevice > /tmp/grub_installdevice');
+    upload_logs("/tmp/grub_installdevice");
+    assert_script_run('ll /dev/disk/by-id > /tmp/by-id-path');
+    assert_script_run('ll /dev/disk/by-path >> /tmp/by-id-path');
+    upload_logs("//tmp/by-id-path");
+
     if (get_var('FLAVOR', '') =~ /-(Updates|Incidents)$/ || get_var('KEEP_REGISTERED')) {
         # The system is registered.
         set_var('HDD_SCC_REGISTERED', 1);
