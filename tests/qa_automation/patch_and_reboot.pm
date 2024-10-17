@@ -30,6 +30,7 @@ use version_utils qw(is_sle);
 use serial_terminal qw(add_serial_console);
 use version_utils qw(is_jeos);
 use registration qw(add_suseconnect_product);
+use y2_base 'save_upload_y2logs';
 
 sub run {
     my $self = shift;
@@ -76,6 +77,12 @@ sub run {
 
 sub test_flags {
     return {fatal => 1};
+}
+
+sub post_fail_hook {
+    my ($self) = @_;
+
+    y2_base::save_upload_y2logs;
 }
 
 1;
