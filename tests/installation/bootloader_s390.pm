@@ -73,6 +73,13 @@ sub create_infofile {
     return shorten_url(autoinst_url . "/files/$path");
 }
 
+sub create_agama_infofile {
+    my ($info) = @_;
+    my $path = 's390x_bootinfo';
+    save_tmp_file($path, $info);
+    return  autoinst_url. "/files/$path";
+}
+
 sub prepare_parmfile {
     my ($repo) = @_;
     my $params = '';
@@ -90,7 +97,10 @@ sub prepare_parmfile {
     }
     else {
         if (get_var('AGAMA')) {
-            $params .= " root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('REPO_999');
+	    my $my_para = "root=live:ftp://" . get_var('REPO_HOST', 'openqa') . '/' . get_var('REPO_999');
+	    #my $my_para = "ftp://" . get_var('REPO_HOST', 'openqa');
+	    #$params .= " info=" . create_agama_infofile($my_para);
+	    $params .= " info=ftp://10.150.1.11/s390x_bootinfo";
         }
         else {
             $params .= " install=" . $instsrc . $repo . " ";
