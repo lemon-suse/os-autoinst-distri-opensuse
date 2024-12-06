@@ -27,6 +27,8 @@ sub new {
 
 sub expect_is_shown {
     my ($self) = @_;
+    assert_screen('agama-active-multipath', 120);
+    assert_and_click 'agama-active-multipath-yes';
     assert_screen($self->{tag_array_ref_any_first_screen_shown}, $self->{timeout_expect_is_shown});
 }
 
