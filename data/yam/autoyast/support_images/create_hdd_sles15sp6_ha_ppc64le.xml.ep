@@ -115,6 +115,82 @@
       </interface>
     </interfaces>
   </networking>
+  <partitioning config:type="list">
+    <drive>
+      <device>/dev/vda</device>
+      <disklabel>gpt</disklabel>
+      <initialize config:type="boolean">true</initialize>
+      <enable_snapshots config:type="boolean">true</enable_snapshots>
+      <partitions config:type="list">
+        <partition>
+          <create config:type="boolean">true</create>
+          <format config:type="boolean">false</format>
+          <partition_id config:type="integer">65</partition_id>
+          <partition_nr config:type="integer">1</partition_nr>
+          <partition_type>primary</partition_type>
+          <resize config:type="boolean">false</resize>
+          <size>8388608</size>
+        </partition>
+        <partition>
+          <create config:type="boolean">true</create>
+          <filesystem config:type="symbol">btrfs</filesystem>
+          <format config:type="boolean">true</format>
+          <mount>/</mount>
+          <mountby config:type="symbol">uuid</mountby>
+          <partition_id config:type="integer">131</partition_id>
+          <partition_nr config:type="integer">2</partition_nr>
+          <partition_type>primary</partition_type>
+          <resize config:type="boolean">false</resize>
+          <size>35G</size>
+          <subvolumes config:type="list">
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>srv</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>opt</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">false</copy_on_write>
+              <path>var</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>usr/local</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>boot/grub2/powerpc-ieee1275</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>tmp</path>
+            </listentry>
+            <listentry>
+              <copy_on_write config:type="boolean">true</copy_on_write>
+              <path>var/lib/machines</path>
+            </listentry>
+          </subvolumes>
+          <subvolumes_prefix>@</subvolumes_prefix>
+        </partition>
+        <partition>
+          <create config:type="boolean">true</create>
+          <filesystem config:type="symbol">swap</filesystem>
+          <format config:type="boolean">true</format>
+          <mount>swap</mount>
+          <mountby config:type="symbol">uuid</mountby>
+          <partition_id config:type="integer">130</partition_id>
+          <partition_nr config:type="integer">3</partition_nr>
+          <partition_type>primary</partition_type>
+          <resize config:type="boolean">false</resize>
+          <size>2G</size>
+        </partition>
+      </partitions>
+      <type config:type="symbol">CT_DISK</type>
+      <use>all</use>
+    </drive>
+  </partitioning>
   <firewall config:type="map">
     <default_zone>public</default_zone>
     <enable_firewall config:type="boolean">true</enable_firewall>
