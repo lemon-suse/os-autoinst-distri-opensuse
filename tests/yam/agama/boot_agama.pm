@@ -15,6 +15,7 @@ use Utils::Backends;
 
 use Mojo::Util 'trim';
 use File::Basename;
+use Utils::Logging 'save_and_upload_log';
 
 BEGIN {
     unshift @INC, dirname(__FILE__) . '/../../installation';
@@ -59,6 +60,18 @@ sub run {
     $grub_entry_edition->type(\@params);
     $grub_entry_edition->boot();
     $agama_up_an_running->expect_is_shown();
+}
+
+sub post_fail_hook {
+    upload_agama_logs();
+}
+
+sub upload_agama_logs {
+    select_console 'root-console';
+    save_and_upload_log('agama config show > /tmp/agama-config.json', "/tmp/agama-confi[?4mn", {timeout => 60});
+    script_run("agama logs store -d /tmp/agama-logs", {timeout => 60});
+    upload_logs("/tmp/agama-logs.tar.gz", failok => 1);
+    save_and_upload_log('journalctl -b > /tmp/journal.log', "/tmp/journal.log", {timeout => 60});
 }
 
 1;
