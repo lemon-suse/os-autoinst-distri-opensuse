@@ -22,6 +22,15 @@
           echo 'PermitRootLogin yes' > /etc/ssh/sshd_config.d/root.conf
         |||
       }
-    ]
+    ],
+   "pre": [
+      {
+        "name": "question mode non-interactive",
+        "body": |||
+          #!/usr/bin/env bash
+          agama questions mode non-interactive
+        |||
+      }
+    ],
   }
 }
