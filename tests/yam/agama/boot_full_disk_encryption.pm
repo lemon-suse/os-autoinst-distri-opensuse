@@ -11,12 +11,14 @@ use base 'opensusebasetest';
 use strict;
 use warnings;
 use testapi;
+use grub_utils;
+use Utils::Backends;
 
 sub run {
     my $enter_passphrase_for_root = $testapi::distri->get_enter_passphrase_for_root();
     my $enter_passphrase_for_swap = $testapi::distri->get_enter_passphrase_for_swap();
     my $grub_menu = $testapi::distri->get_grub_menu_installed_system();
-
+    handle_installer_medium_bootup() if is_pvm; 
     $enter_passphrase_for_root->expect_is_shown();
     $enter_passphrase_for_root->enter();
 
