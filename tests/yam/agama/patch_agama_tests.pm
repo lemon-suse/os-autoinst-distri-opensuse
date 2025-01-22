@@ -9,6 +9,7 @@ use base Yam::Agama::patch_agama_base;
 use strict;
 use warnings;
 use testapi qw(assert_script_run get_required_var select_console);
+use utils;
 
 sub run {
     select_console 'root-console';
