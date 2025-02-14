@@ -18,6 +18,7 @@ use warnings;
 use base 'bootbasetest';
 use testapi;
 use x11utils 'turn_off_plasma_tooltips';
+use y2_base 'save_upload_y2logs';
 
 sub run {
     shift->wait_boot_past_bootloader;
@@ -33,4 +34,9 @@ sub test_flags {
 # 'generic-desktop' already checked in wait_boot_past_bootloader
 sub post_run_hook { }
 
+sub post_fail_hook {
+    my ($self) = @_;
+
+    y2_base::save_upload_y2logs;
+}
 1;
