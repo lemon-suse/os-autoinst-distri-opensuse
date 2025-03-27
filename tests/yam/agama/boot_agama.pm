@@ -63,6 +63,17 @@ sub run {
     }
     my @params = split ' ', trim(get_var('EXTRABOOTPARAMS', ''));
 
+    # mount hdd_2
+    select_console('install-shell');
+    assert_script_run 'mkdir /mnt/data';
+    assert_script_run 'lsblk -f';
+    my $uuid = script_output('lsblk /dev/vdb -o UUID -f | tail -1');
+    diag "uuid=$uuid";
+    assert_script_run "sed -i -e '$a\'$'\n'$uuid /etc/fstab";
+    assert_script_run 'cat /etc/fstab';
+    assert_script_run 'mount -a';
+    assert_script_run 'la /mnt/data/';
+
     $grub_menu->expect_is_shown();
     $grub_menu->edit_current_entry();
     $grub_entry_edition->move_cursor_to_end_of_kernel_line();
