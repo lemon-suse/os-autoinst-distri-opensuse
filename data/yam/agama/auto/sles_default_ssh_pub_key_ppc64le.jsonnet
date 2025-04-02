@@ -23,11 +23,16 @@
         name: 'wipefs',
         content: |||
           #!/usr/bin/env bash
-          for i in `lsblk -n -l -o NAME -d -e 7,11,254`
+          lsblk
+          lsblk -n -l -o NAME -d
+          for i in `lsblk -n -l -o NAME -d`
               do wipefs -af /dev/$i
-              sleep 1
+              sleep 2
               sync
           done
+          lsblk
+          udev adm settle
+          lsblk
         |||,
       },
     ],
@@ -42,4 +47,14 @@
       },
     ],
   },
+  "storage": {
+    "drives": [
+      {
+        "partitions": [
+          { "search": "*", "delete": true },
+          { "generate": "default" }
+        ]
+      }
+    ]
+  }
 }
