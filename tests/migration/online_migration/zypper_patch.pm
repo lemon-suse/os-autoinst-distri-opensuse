@@ -37,6 +37,8 @@ sub run {
         zypper_call("in sssd sssd-tools sssd-ldap openldap2 openldap2-client");
     }
     deregister_dropped_modules;
+    # remove sle-module-packagehub-subpackages-release for bsc#1233116
+    zypper_call("rm sle-module-packagehub-subpackages-release");
     # disable multiversion for kernel-default based on bsc#1097111, for migration continuous cases only
     if (get_var('FLAVOR', '') =~ /Continuous-Migration/) {
         modify_kernel_multiversion("disable");
