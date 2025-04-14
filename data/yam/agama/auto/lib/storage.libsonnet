@@ -4,7 +4,9 @@ local root_filesystem(filesystem) = {
       partitions: [
         { search: "*", delete: true },
         { generate: 'default' },
-        { filesystem: { path: '/', type: filesystem } },
+        { 
+          [ if filesystem != 'default' then 'filesystem']: [{ path: '/', type: filesystem }]
+        },
       ],
     },
   ],
@@ -45,4 +47,5 @@ local lvm(encrypted=false) = {
   lvm_encrypted: lvm(true),
   root_filesystem_ext4: root_filesystem('ext4'),
   root_filesystem_xfs: root_filesystem('xfs'),
+  root_filesystem_default: root_filesystem('default'),
 }

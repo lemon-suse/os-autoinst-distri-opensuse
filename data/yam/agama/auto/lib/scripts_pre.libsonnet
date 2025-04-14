@@ -15,6 +15,8 @@
     content: |||
       #!/usr/bin/env bash
       for i in `lsblk -n -l -o NAME -d -e 7,11,254`
+          swapoff /dev/zram0
+          zramctl --reset /dev/zram0
           do wipefs -af /dev/$i
           sleep 1
           sync
