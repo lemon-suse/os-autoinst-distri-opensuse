@@ -49,6 +49,9 @@ sub run {
     assert_script_run("sed -i 's/proxy_user: /proxy_user: $proxy_user/g' $rmt_conf");
     assert_script_run("sed -i 's/proxy_password: /proxy_password: $proxy_pw/g' $rmt_conf");
     assert_script_run("sed -i 's/proxy_auth: /proxy_auth: ntlm/g' $rmt_conf");
+    
+    assert_script_run("sed -i 's/low speed limit: 512/low speed limit: 256/g' $rmt_conf");
+    assert_script_run("sed -i 's/low speed time: 120/low speed time: 180/g' $rmt_conf");
     assert_script_run("cat $rmt_conf");
 
     # verify the basic function of the rmt server
