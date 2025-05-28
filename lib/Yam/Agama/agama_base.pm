@@ -27,6 +27,8 @@ sub upload_agama_logs {
     script_run("agama logs store -d /tmp/agama-logs", {timeout => 60});
     upload_logs("/tmp/agama-logs.tar.gz", failok => 1);
     save_and_upload_log('journalctl -b > /tmp/journal.log', "/tmp/journal.log", {timeout => 60});
+    script_run("rpm -q -changelog agama-web-ui > /tmp/agama-web-ui-changelog.txt", {timeout => 60});
+    upload_logs("/tmp/agama-web-ui-changelog.txt", failok => 1);
 }
 
 sub upload_browser_automation_dumps {
