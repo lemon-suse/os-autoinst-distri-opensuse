@@ -15,6 +15,7 @@ schedule:
   - autoyast/installation
   - installation/first_boot
   - console/system_prepare
+  - autoyast/clone
   - console/hostname
   - console/force_scheduled_tasks
   - shutdown/grub_set_bootargs
