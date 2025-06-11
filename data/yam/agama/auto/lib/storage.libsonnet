@@ -10,6 +10,17 @@ local root_filesystem(filesystem) = {
   ],
 };
 
+local root_new() = {
+  drives: [
+    {
+      partitions: [
+        { search: '*', delete: true },
+        { generate: 'default' },
+      ],
+    },
+  ],
+};
+
 local lvm(encrypted=false, encryption='luks2') = {
   drives: [
     {
@@ -164,5 +175,6 @@ local raid(level='raid0', uefi=false) = {
   raid0_uefi: raid('raid0', true),
   root_filesystem_ext4: root_filesystem('ext4'),
   root_filesystem_xfs: root_filesystem('xfs'),
+  root_new: root_new(),
   whole_disk_and_boot_unattended: whole_disk_and_boot_unattended(),
 }
