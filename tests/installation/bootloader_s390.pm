@@ -346,9 +346,11 @@ sub run {
         select_console('iucvconn', await_console => 0);
     }
 
-    # format DASD before installation by default
-    format_dasd if (check_var('FORMAT_DASD', 'pre_install') && !get_var('INST_AUTO'));
-    create_encrypted_part_dasd if get_var('ENCRYPT_ACTIVATE_EXISTING');
+    if (!get_var('KEEP_DISKS')) {
+        # format DASD before installation by default
+        format_dasd if (check_var('FORMAT_DASD', 'pre_install') && !get_var('INST_AUTO'));
+        create_encrypted_part_dasd if get_var('ENCRYPT_ACTIVATE_EXISTING');
+    }
 
     select_console("installation", timeout => 180);
 
