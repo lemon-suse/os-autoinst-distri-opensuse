@@ -31,7 +31,7 @@
     </suse_register>
     <general>
       <mode>
-        <confirm config:type="boolean">false</confirm>
+        <confirm config:type="boolean">true</confirm>
       </mode>
     </general>
     <bootloader>
@@ -83,6 +83,7 @@
         </products>
         <packages config:type="list">
             <package>openssh</package>
+	    <package>xorg-x11-Xvnc</package>
         </packages>
 	<patterns t="list">
             <pattern>apparmor</pattern>
