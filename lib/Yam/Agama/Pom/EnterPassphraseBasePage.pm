@@ -18,7 +18,9 @@ sub new {
 
 sub enter {
     my ($self) = @_;
-    type_password();
+    #type_password();
+    diag "password==$testapi::password";
+    type_password($testapi::password, max_interval => 50, wait_screen_change => 2, timeout => 60);
     send_key "ret";
 }
 
