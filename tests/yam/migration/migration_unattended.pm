@@ -24,12 +24,15 @@ sub run {
 
     my $repo_home = "http://download.suse.de/ibs/home:/fcrozat:/SLES16/SLE_\$releasever";
     my $repo_images = 'http://download.suse.de/ibs/home:/fcrozat:/SLES16/images/';
+    my $repo_ydk = 'http://download.suse.de/ibs/home:/yudaike:/branches:/home:/fcrozat:/SLES16/SLE_$releasever';
     zypper_call("ar -p 90 '$repo_home' home_sles16");
     zypper_call("ar -p 90 $repo_images home_images");
+    zypper_call("ar -p 95 '$repo_ydk' home_yudaike_branches_home_fcrozat_SLES16");
 
     # install the migration image and active it
-    zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation");
+    #zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation");
 
+    zypper_call("--gpg-auto-import-keys -n in --from home_yudaike_branches_home_fcrozat_SLES16 suse-migration-sle16-activation", exitcode => [0,107]);
     power_action('reboot', keepconsole => 1, first_reboot => 1);
 
     assert_screen('grub-menu-migration');
