@@ -11,9 +11,13 @@ use base 'consoletest';
 use strict;
 use warnings;
 use testapi;
+use utils 'zypper_call';
 
 sub run {
     select_console 'root-console';
+
+    zypper_call("in policycoreutils");
+    assert_script_run("sestatus");
 
     upload_logs("/var/log/distro_migration.log", failok => 1);
 }
