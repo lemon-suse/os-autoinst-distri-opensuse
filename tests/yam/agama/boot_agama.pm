@@ -24,6 +24,7 @@ use bootloader_s390;
 use bootloader_zkvm;
 use bootloader_pvm;
 
+my $Test_profile = '';
 sub prepare_boot_params {
     my @params = ();
 
@@ -45,6 +46,7 @@ sub prepare_boot_params {
           generate_json_profile($inst_auto) :
           expand_agama_profile($inst_auto);
         set_var('INST_AUTO', $profile_url);
+	$Test_profile = $profile_url;
         push @params, "inst.auto=\"$profile_url\"", "inst.finish=stop";
     }
     push @params, 'inst.register_url=' . get_var('SCC_URL') if get_var('SCC_URL') && get_var('FLAVOR') =~ /^(Online.*|agama-installer)$/;
@@ -112,6 +114,8 @@ sub run {
 }
 
 sub post_fail_hook {
+    select_console 'root-console';
+    assert_script_run("curl $Test_profile");
     Yam::Agama::agama_base::upload_agama_logs();
 }
 
