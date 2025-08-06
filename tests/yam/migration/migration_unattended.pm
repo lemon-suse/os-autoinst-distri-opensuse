@@ -28,7 +28,8 @@ sub run {
     zypper_call("ar -p 90 $repo_images home_images");
 
     # install the migration image and active it
-    zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation");
+    #zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation");
+    zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation", exitcode => [0,107]);
 
     power_action('reboot', keepconsole => 1, first_reboot => 1);
 
