@@ -22,8 +22,13 @@ sub run {
 
     assert_script_run("echo 'url: " . get_var('SCC_URL') . "' > /etc/SUSEConnect");
 
-    my $repo_home = "http://download.suse.de/ibs/home:/fcrozat:/SLES16/SLE_\$releasever";
-    my $repo_images = 'http://download.suse.de/ibs/home:/fcrozat:/SLES16/images/';
+    #my $repo_home = "http://download.suse.de/ibs/home:/fcrozat:/SLES16/SLE_\$releasever";
+    #my $repo_images = 'http://download.suse.de/ibs/home:/fcrozat:/SLES16/images/';
+    #zypper_call("ar -p 90 '$repo_home' home_sles16");
+    #zypper_call("ar -p 90 $repo_images home_images");
+
+    my $repo_home = "http://download.suse.de/ibs/home:/yudaike:/SLES16:/bsc1246907/SLE_\$releasever";
+    my $repo_images = 'http://download.suse.de/ibs/home:/yudaike:/SLES16:/bsc1246907/images/';
     zypper_call("ar -p 90 '$repo_home' home_sles16");
     zypper_call("ar -p 90 $repo_images home_images");
 
