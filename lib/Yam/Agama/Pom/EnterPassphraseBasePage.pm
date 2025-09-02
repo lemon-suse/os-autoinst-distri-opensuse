@@ -18,7 +18,8 @@ sub new {
 
 sub enter {
     my ($self) = @_;
-    type_password();
+    #type_password();
+    type_password($testapi::password, max_interval => 100, wait_screen_change => 2, timeout => 60, secret => 0);
     send_key "ret";
 }
 
