@@ -11,7 +11,8 @@ use testapi;
 use grub_utils 'grub_test';
 use migration 'disable_installation_repos';
 use power_action_utils 'power_action';
-use utils 'zypper_call';
+use utils qw(zypper_call reconnect_mgmt_console);
+use Utils::Architectures 'is_s390x';
 
 sub run {
     my $self = shift;
@@ -30,8 +31,12 @@ sub run {
 
     power_action('reboot', keepconsole => 1, first_reboot => 1);
 
-    assert_screen([qw(grub-menu-migration migration-running)]);
-    assert_screen('grub2', 400);
+    if (is_s390x()) {
+        reconnect_mgmt_console;
+    } else {
+        assert_screen([qw(grub-menu-migration migration-running)]);
+        assert_screen('grub2', 400);
+    }
 }
 
 sub post_fail_hook {
