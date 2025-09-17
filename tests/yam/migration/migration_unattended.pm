@@ -28,10 +28,12 @@ sub run {
     # install the migration image and active it
     zypper_call("--gpg-auto-import-keys -n in suse-migration-sle16-activation");
 
-    # Disable repos of the product to migrate from due to proxySCC is not serving SLES 15 SP*
-    my $version = get_var('VERSION_UPGRADE_FROM');
-    $version =~ s/-/_/;
-    script_run('for s in $(zypper -t ls | grep _Module_' . "$version" . ' | sed -e \'s,|.*,,g\'); do zypper modifyservice --disable $s; done');
+    # disable repos of the product to migrate from due to Proxy SCC is not serving SLES 15 SP*
+    assert_script_run('zypper -t ls');
+    my @repo_ids = split(/\n/, script_output("zypper -t ls | awk \'\$1 ~ /[0-9]/ {print \$1}\'"));
+    foreach my $id (@repo_ids) {
+        assert_script_run("zypper modifyservice --disable $id");
+    }
     power_action('reboot', textmode => 1, keepconsole => 1, first_reboot => 1);
 
     assert_screen([qw(grub-menu-migration migration-running)], 150);
