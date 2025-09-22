@@ -36,6 +36,89 @@ local resize() = {
   ],
 };
 
+local spaces() = {
+  drives: [
+    {
+      search: '/dev/vda',
+      partitions: [
+      {
+          search: '/dev/vda2',
+          filesystem: { path: '/' },
+          size: '20 GiB',
+        },
+      ],
+    },
+    {
+      search: '/dev/vdb',
+      partitions: [
+      {
+          search: '/dev/vdb2',
+          filesystem: { path: '/' },
+          size: '12 GiB',
+        },
+        {
+          search: '/dev/vdb3',
+          filesystem: { path: 'swap' },
+          size: '2 GiB',
+        },
+      ],
+    },
+    {
+      search: '/dev/vdc',
+      partitions: [
+        {
+          search: '/dev/vdc2',
+          filesystem: { path: '/' },
+          size: '12.5 GiB',
+        },
+        {    
+          search: '/dev/vdc3',
+          filesystem: { path: 'swap' },
+          size: '2.1 GiB',
+        },
+      ],
+    },
+    {
+      search: '/dev/vdd',
+      partitions: [
+        {
+          search: '/dev/vdd2',
+          filesystem: { path: '/' },
+          size: '12.5 GiB',
+        },
+        {
+          search: '/dev/vdd3',
+          filesystem: { path: 'swap' },
+          size: '0.9 GiB',
+        },
+      ],
+    },
+    {
+      search: {
+        sort: {size: 'desc'},
+        max: 1,
+      },
+      alias: 'boot-disk',
+    },
+  ],
+};
+
+local test_spaces() = {
+  "drives": [  
+    {
+      "partitions": [
+        {
+           "filesystem": {
+             "path": "/"
+            },
+           "size": "20 GiB"
+         }
+      ],
+     "search": "/dev/vda"
+    },
+  ],
+};
+
 local lvm(encrypted=false, encryption='luks2') = {
   drives: [
     {
@@ -322,5 +405,7 @@ local home_on_iscsi() = {
   resize: resize(),
   root_filesystem_ext4: root_filesystem('ext4'),
   root_filesystem_xfs: root_filesystem('xfs'),
+  //spaces: spaces(),
+  spaces: test_spaces(), 
   whole_disk_and_boot_unattended: whole_disk_and_boot_unattended(),
 }

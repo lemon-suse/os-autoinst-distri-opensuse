@@ -18,6 +18,7 @@ sub set_agama_version {
 sub run {
     select_console 'install-shell';
     set_agama_version();
+    script_run("mkdir /tmp/lemon");
 }
 
 1;
