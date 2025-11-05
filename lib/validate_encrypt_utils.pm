@@ -15,6 +15,7 @@ use Test::Assert ':all';
 use Data::Dumper;
 use base "Exporter";
 use Exporter;
+use testapi;
 
 our @EXPORT = qw(
   parse_devices_in_crypttab
@@ -42,6 +43,7 @@ sub parse_devices_in_crypttab {
     foreach (@lines) {
         next if /^\s*#.*$/;
         if ($_ =~ /(?<name>.+?)\s+(?<encrypted_device>.+?)($|\s+(?<password>.*?)($|\s+(?<options>.*)))/) {
+	    diag "'$_'=$_";
             $crypttab->{$+{name}} = {
                 encrypted_device => $+{encrypted_device},
                 password => $+{password},
