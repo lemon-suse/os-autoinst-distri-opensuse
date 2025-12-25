@@ -68,6 +68,7 @@ sub run {
         my $svirt = console('svirt')->change_domain_element(os => boot => {dev => 'hd'});
     }
 
+    script_run('cat /etc/default/grub | grep GRUB_TIMEOUT');
     (is_s390x() || is_pvm() || is_headless_installation()) ?
       # reboot via console
       power_action('reboot', keepconsole => 1, first_reboot => 1) :
