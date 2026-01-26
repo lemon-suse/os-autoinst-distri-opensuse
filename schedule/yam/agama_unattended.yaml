@@ -7,6 +7,7 @@ schedule:
   - yam/agama/agama_auto
   - installation/grub_test
   - installation/first_boot
+  - console/validate_repos
   - yam/validate/validate_base_product
   - yam/validate/validate_product
   - yam/validate/validate_connectivity
@@ -14,7 +15,6 @@ schedule:
   - yam/validate/validate_hostname
   - yam/validate/validate_snapshots
   - yam/validate/validate_registered_products
-  - console/validate_repos
   - shutdown/grub_set_bootargs
   - shutdown/cleanup_before_shutdown
   - shutdown/shutdown

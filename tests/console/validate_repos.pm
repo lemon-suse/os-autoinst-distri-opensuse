@@ -28,6 +28,7 @@ sub run {
         qr/SLE-15-SP7-SAP-15\.7-0/,
     );
 
+    script_run 'zypper -n lr --uri';
     script_output 'zypper -n lr --uri';
 
     foreach my $repo (@{$test_data->{repos}}) {
