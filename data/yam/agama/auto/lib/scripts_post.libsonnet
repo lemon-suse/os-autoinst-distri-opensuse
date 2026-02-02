@@ -6,7 +6,7 @@
       #!/usr/bin/env bash
       echo 'PermitRootLogin yes' > /etc/ssh/sshd_config.d/root.conf
       #bsc#1257212 - sshd hasn't been activated after installation
-      systemctl enable sshd
+      #systemctl enable sshd
     |||
   },
   add_serial_console_hvc1: {
