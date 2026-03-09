@@ -57,6 +57,7 @@ sub run {
 
     select_console 'root-console';
 
+    zypper_call "rm suseconnect-ng";
     zypper_call "in yast2-registration";
 
     my $module_name = y2_module_consoletest::yast2_console_exec(yast2_module => 'registration');
