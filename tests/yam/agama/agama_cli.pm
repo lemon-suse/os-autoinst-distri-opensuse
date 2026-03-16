@@ -29,30 +29,37 @@ sub run {
     assert_script_run('agama config show | jq -C');
 
     assert_script_run("jq -n '.root.password = \"$testapi::password\"' | agama config load");
+    assert_script_run('agama config show | jq -C');
     assert_script_run("agama config show | grep $testapi::password");
+    assert_script_run('agama config show | jq -C');
 
     my $product_id = get_var('AGAMA_PRODUCT_ID');
     assert_script_run("jq -n '.product.id = \"$product_id\"' | agama config load");
     assert_script_run("agama config show | grep $product_id");
+    assert_script_run('agama config show | jq -C');
 
     my $rpm_url = data_url('yam/agama/hello-world-0.1-1.1.noarch.rpm');
     assert_script_run("agama download $rpm_url /tmp/hello-world.rpm");
     validate_script_output('stat /tmp/hello-world.rpm', qr/Size: 7019/,
         fail_message => 'Downloaded file does not match expected size');
+    assert_script_run('agama config show | jq -C');
 
     script_run('agama events > /tmp/agama_events.log 2>&1 &', timeout => 0);
     agama_config_edit(":\%s/bernhard/jose/g");
     assert_script_run('agama config show | grep jose');
     agama_config_edit(":\%s/jose/bernhard/g");
+    assert_script_run('agama config show | jq -C');
 
     validate_script_output('cat /tmp/agama_events.log', qr/ProgressChanged/,
         fail_message => 'Agama ProgressChanged event not shown');
+    assert_script_run('agama config show | jq -C');
 
     script_run('agama auth login', timeout => 0);
     enter_cmd("$testapi::password");
     my $regex = 'Not authenticated in localhost';
     validate_script_output('agama auth show', qr/(?!$regex)/,
         fail_message => 'Not authenticated in Agama');
+    assert_script_run('agama config show | jq -C');
 
     assert_script_run('agama install', timeout => 2400);
     $self->upload_agama_logs();
