@@ -29,15 +29,20 @@ function(bootloader=true,
          registration_code_ha='',
          registration_packagehub=false,
          registration_url='',
+         remote_worker=false,
          root_password=true,
          scripts_pre='',
          scripts_post_partitioning='',
          scripts_post='',
          software_only_required=false,
+         ssh_pub_key='',
          ssl_certificates=false,
          storage='',
          decrypt_password='',
          user=true) (
+        local rp = root_password;
+        local sk = ssh_pub_key;
+        local rw = remote_worker;
         base_lib.bootloader(bootloader, bootloader_timeout, bootloader_extra_kernel_params) +
         {
           [if dasd == true then 'dasd']: dasd_lib.dasd(),
@@ -64,7 +69,12 @@ function(bootloader=true,
             [if registration_code != '' then 'registrationCode']: registration_code,
             [if registration_url != '' then 'registrationUrl']: registration_url,
           },
-          root: base_lib.root(root_password),
+         // root: base_lib.root(root_password, ssh_pub_key, remote_worker),
+          root: base_lib.root({
+            password: rp,
+            ssh_key: sk,
+            worker: rw
+          }),
           [if ssl_certificates == true then 'security']: security_lib.sslCertificates(),
           [if scripts_pre != '' || scripts_post != '' || scripts_post_partitioning != '' then 'scripts']: {
             [if scripts_post != '' then 'post']: [ scripts_post_lib[x] for x in std.split(scripts_post, ',') ],
