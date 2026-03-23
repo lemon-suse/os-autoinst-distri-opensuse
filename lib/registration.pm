@@ -773,6 +773,7 @@ sub registration_bootloader_cmdline {
     # SCC_URL=https://smt.example.com
     # prevent rogue RMT servers to show up in unexpected selection dialogs
     # https://progress.opensuse.org/issues/94696
+    return if (is_agama && check_var('FLAVOR', 'Full'));
     set_var('SCC_URL', 'https://scc.suse.com') unless (get_var('SCC_URL') || is_agama);
     my $cmdline = '';
     if (my $url = get_var('SMT_URL') || get_var('SCC_URL')) {
