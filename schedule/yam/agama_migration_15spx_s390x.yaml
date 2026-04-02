@@ -11,9 +11,7 @@ schedule:
   - yam/migration/restore_upgrade_env
   - console/system_prepare
   - console/hostname
-  - yam/migration/migration_unattended
-  - installation/first_boot
-  - yam/validate/validate_migration_logs
-  - yam/validate/validate_connectivity
-  - yam/validate/validate_product
-  - console/validate_repos
+  - shutdown/grub_set_bootargs
+  - shutdown/cleanup_before_shutdown
+  - shutdown/shutdown
+  - shutdown/svirt_upload_assets
