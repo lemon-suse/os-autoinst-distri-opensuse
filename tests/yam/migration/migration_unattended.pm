@@ -32,6 +32,9 @@ sub run {
 
     if ((get_var('SCC_URL', "") =~ /proxy/)) {
         zypper_call("rr Migration");
+	if (!(get_var('VERSION', '16.1')) {
+            assert_script_run('echo migration_product: SLES/' . get_var('VERSION') . '/' . get_var('ARCH') . ' > /etc/sle-migration-service.yml');
+        }
     }
 
     # deacivate unwanted/unsupported extensions before doing migration
