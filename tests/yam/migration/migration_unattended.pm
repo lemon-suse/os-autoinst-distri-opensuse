@@ -25,15 +25,7 @@ sub run {
         assert_script_run("echo 'url: " . get_var('SCC_URL') . "' > /etc/SUSEConnect");
         zypper_call("ar --refresh -p 90 '$repo_url' Migration");
     }
-
-    # install the migration image and active it
-    my $migration_tool = is_s390x ? 'SLES16-Migration' : 'suse-migration-sle16-activation';
-    zypper_call("--gpg-auto-import-keys -n in $migration_tool");
-
-    if ((get_var('SCC_URL', "") =~ /proxy/)) {
-        zypper_call("rr Migration");
-    }
-
+    #remove ltss
     # deacivate unwanted/unsupported extensions before doing migration
     if (get_var('SCC_SUBTRACTIONS')) {
         foreach my $addon (split(',', get_var('SCC_SUBTRACTIONS'))) {
@@ -41,6 +33,14 @@ sub run {
             # NVIDIA Compute is not versioned by SP
             remove_suseconnect_product($extension, (($addon eq 'nvidia') ? '15' : ()));
         }
+    }
+
+    # install the migration image and active it
+    my $migration_tool = is_s390x ? 'SLES16-Migration' : 'suse-migration-sle16-activation';
+    zypper_call("--gpg-auto-import-keys -n in $migration_tool");
+
+    if ((get_var('SCC_URL', "") =~ /proxy/)) {
+        zypper_call("rr Migration");
     }
 
     # upload logs to know system state before migration
