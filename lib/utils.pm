@@ -1936,7 +1936,7 @@ can be set to 1.
 
 sub reconnect_mgmt_console {
     my (%args) = @_;
-    $args{timeout} //= 300;
+    $args{timeout} //= 900;
     $args{grub_expected_twice} //= 0;
 
     if (is_s390x) {
