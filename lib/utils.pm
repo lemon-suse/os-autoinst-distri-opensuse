@@ -1940,7 +1940,8 @@ sub reconnect_mgmt_console {
     $args{grub_expected_twice} //= 0;
 
     if (is_s390x) {
-        my $login_ready = serial_terminal::get_login_message();
+	my $login_ready = wait_serial(serial_terminal::get_login_message(), 300);
+	#my $login_ready = serial_terminal::get_login_message();
         console('installation')->disable_vnc_stalls;
 
         # different behaviour for z/VM and z/KVM
