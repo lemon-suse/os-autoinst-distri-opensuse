@@ -25,6 +25,10 @@ sub run {
         zypper_call("ar --refresh -p 90 '$repo_url' Migration");
     }
 
+    # Add product increment repo
+    my $repo_increment = get_var('OS_TEST_REPOS') if get_var('INCREMENT_REPO');
+    zypper_call("ar --refresh '$repo_increment' Increment_repo") if $repo_increment;
+
     # install the migration image and active it
     my $migration_tool = is_s390x ? 'SLES16-Migration' : 'suse-migration-sle16-activation';
     zypper_call("--gpg-auto-import-keys -n in $migration_tool");
