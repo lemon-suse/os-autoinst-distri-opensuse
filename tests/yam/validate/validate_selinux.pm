@@ -13,6 +13,7 @@ use testapi;
 sub run {
     select_console 'root-console';
 
+    assert_script_run("rpm -q blog");
     my $selinux = get_test_suite_data()->{selinux};
     assert_script_run("sestatus");
     assert_script_run("sestatus | grep \"SELinux status.*.$selinux->{status}\"");
