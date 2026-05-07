@@ -7,7 +7,7 @@ schedule:
   - yam/agama/import_agama_profile
   - yam/agama/patch_agama_tests
   - yam/agama/agama
-  - installation/grub_test
+  - yam/agama/boot_encrypted_partitions
   - installation/first_boot
   - console/validate_lvm
   - console/validate_encrypt
