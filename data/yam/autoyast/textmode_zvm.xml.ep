@@ -61,6 +61,9 @@
       <pattern>x11_yast</pattern>
       <pattern>yast2_basis</pattern>
     </patterns>
+    <packages config:type="list">
+      <package>coreutils</package>
+    </packages>
     <products t="list">
       <product>SLES</product>
     </products>

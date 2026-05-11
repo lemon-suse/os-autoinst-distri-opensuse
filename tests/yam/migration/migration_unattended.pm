@@ -41,8 +41,14 @@ sub run {
     # clean migration repo and configure SUSEConnect when using proxy
     if ((get_var('SCC_URL', "") =~ /proxy/)) {
         zypper_call("rr Migration");
-        assert_script_run("echo 'url: " . get_var('SCC_URL') . "' > /etc/SUSEConnect");
+	#assert_script_run("echo 'url: " . get_var('SCC_URL') . "' > /etc/SUSEConnect");
     }
+
+    # disable old repos
+    #my @old_aliases = split(/\n/, script_output("zypper -n lr --uri | awk \'NR>4 {print \$3}\'"));
+    #foreach my $alias (@old_aliases) {
+    #    zypper_call("mr -d $alias");
+    #}
 
     # Add product increment repo
     if (my $repo_increment = get_var('INCREMENT_REPO')) {
