@@ -55,6 +55,7 @@ sub run {
 
     if (is_s390x) {
         enter_cmd '/usr/sbin/run_migration';
+	assert_script_run("sed -i '/GRUB_CMDLINE_LINUX_DEFAULT/s/\"$/ migration.noreboot=1\"/' /etc/grub.d/99_migration");
         reset_consoles;
         reconnect_mgmt_console(timeout => 600);
     } else {
