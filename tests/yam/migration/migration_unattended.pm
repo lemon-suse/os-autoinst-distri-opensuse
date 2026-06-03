@@ -59,6 +59,8 @@ sub run {
     upload_folders(folders => '/etc/zypp/repos.d/');
 
     if (is_s390x) {
+        assert_script_run(q(sed -i '$ a boot_options="${boot_options} migration.noreboot"' /usr/sbin/run_migration));
+        assert_script_run("cat /usr/sbin/run_migration");
         enter_cmd '/usr/sbin/run_migration';
         reset_consoles;
         reconnect_mgmt_console(timeout => 600);
