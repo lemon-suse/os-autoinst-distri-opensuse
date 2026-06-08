@@ -105,10 +105,12 @@
         </patterns>
     </software>
     <services-manager>
-        <services>
-            <enable config:type="list">
-                <service>sshd</service>
-            </enable>
+      <default_target>multi-user</default_target>
+        <services t="map">
+          <enable t="list">
+            <service>firewalld</service>
+            <service>sshd</service>
+          </enable>
         </services>
     </services-manager>
     <users config:type="list">
