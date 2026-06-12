@@ -13,4 +13,11 @@ sub run {
     $testapi::distri->get_add_on_product()->add_selected_products();
 }
 
+sub post_fail_hook {
+    my ($self) = @_;
+
+    upload_logs('/tmp/mygpgme.log');
+    $self->SUPER::post_fail_hook;
+}
+
 1;
