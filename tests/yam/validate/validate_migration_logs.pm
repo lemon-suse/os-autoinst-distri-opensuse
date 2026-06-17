@@ -13,6 +13,11 @@ use utils 'upload_folders';
 sub run {
     select_console 'root-console';
 
+    script_run 'zypper packages --orphaned > /tmp/orphaned_list.txt';
+    upload_logs("/tmp/orphaned_list.txt", failok => 1);
+    script_run 'zypper packages --unneeded > /tmp/unneeded_list.txt';
+    upload_logs("/tmp/unneeded_list.txt", failok => 1);
+
     upload_logs("/var/log/distro_migration.log", failok => 1);
     script_run 'tar zcvf /tmp/cache_wicked_config.tar.gz /var/cache/wicked_config/*';
     upload_logs("/tmp/cache_wicked_config.tar.gz", failok => 1);
