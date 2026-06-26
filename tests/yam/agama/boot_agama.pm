@@ -47,7 +47,9 @@ sub prepare_boot_params {
               expand_agama_profile($inst_auto);
         }
         set_var('INST_AUTO', $profile_url);
-        push @params, "inst.auto=\"$profile_url\"", 'inst.finish=stop';
+        push @params, "inst.auto=\"$profile_url\"";
+	my $inst_finish = get_var('INST_FINISH');
+	push @params, "inst.finish=$inst_finish" if $inst_finish;
     }
 
     # add register url

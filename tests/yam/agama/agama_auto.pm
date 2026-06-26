@@ -16,6 +16,8 @@ use version_utils qw(is_vmware is_leap);
 sub run {
     my $self = shift;
     my $reboot_page = $testapi::distri->get_reboot();
+
+    return if get_var('INST_FINISH');
     $reboot_page->expect_is_shown();
 
     $self->upload_agama_logs() unless is_hyperv();
