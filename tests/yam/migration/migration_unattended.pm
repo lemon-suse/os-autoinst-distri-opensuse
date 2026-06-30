@@ -10,7 +10,7 @@ use Mojo::Base 'opensusebasetest';
 use testapi;
 use power_action_utils 'power_action';
 use utils qw(zypper_call reconnect_mgmt_console upload_folders);
-use Utils::Architectures 'is_s390x';
+use Utils::Architectures qw(is_s390x is_x86_64);
 use registration;
 
 sub run {
@@ -61,7 +61,7 @@ sub run {
     upload_logs("/boot/grub2/grub.cfg", failok => 1);
     upload_folders(folders => '/etc/zypp/repos.d/');
 
-    if (is_s390x) {
+    if (is_s390x || is_x86_64) {
         enter_cmd '/usr/sbin/run_migration';
         reset_consoles;
         reconnect_mgmt_console(timeout => 600);
