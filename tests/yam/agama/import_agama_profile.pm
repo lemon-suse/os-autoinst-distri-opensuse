@@ -18,6 +18,8 @@ sub run {
 
     select_console 'install-shell';
     assert_script_run("agama config load $profile_url", timeout => 300) if (!check_var('AGAMA_PROFILE_LOAD', '0'));
+    assert_script_run("rpm -q blog");
+    assert_script_run("rpm -q blog-plymouth");
 }
 
 1;

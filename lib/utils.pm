@@ -397,11 +397,11 @@ sub unlock_if_encrypted {
 
         # enter passphrase twice (before grub and after grub) if full disk is encrypted
         if (get_var('FULL_LVM_ENCRYPT')) {
-            wait_serial("Please enter passphrase for disk.*", 300);
+            wait_serial(".*Please enter passphrase for disk.*", 300);
             type_line_svirt "$password";
         }
         wait_serial('GNU GRUB') || diag 'Could not find GRUB screen, continuing nevertheless, trying to boot';
-        type_line_svirt '', expect => "Please enter passphrase for disk.*", timeout => 100, fail_message => 'Could not find "enter passphrase" prompt';
+        type_line_svirt '', expect => ".*Please enter passphrase for disk.*", timeout => 100, fail_message => 'Could not find "enter passphrase" prompt';
         type_line_svirt "$password";
     }    # Handle zVM scenario
     elsif (is_backend_s390x) {
