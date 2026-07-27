@@ -39,6 +39,11 @@ sub test_flags {
 }
 
 # 'generic-desktop' already checked in wait_boot_past_bootloader
-sub post_run_hook { }
+sub post_run_hook {
+    my $self = shift; 
+    select_console 'root-console';
+    assert_script_run('la /var/lib/AccountsService/users/');
+    $self->SUPER::post_fail_hook;
+}
 
 1;

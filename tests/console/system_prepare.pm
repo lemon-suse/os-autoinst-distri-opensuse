@@ -31,6 +31,7 @@ use suseconnect_register qw(command_register);
 sub run {
     my ($self) = @_;
     select_console 'root-console';
+    assert_script_run('la /var/lib/AccountsService/users/');
     ensure_serialdev_permissions;
     prepare_serial_console;
     if (!check_var('DESKTOP', 'textmode')) {

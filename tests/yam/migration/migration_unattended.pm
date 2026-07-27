@@ -19,6 +19,7 @@ sub run {
 
     select_console('root-console');
 
+    assert_script_run('la /var/lib/AccountsService/users/');
     # Add repo for devel:DMS when using proxy
     if ((get_var('SCC_URL', "") =~ /proxy/)) {
         my $repo_server = "https://download.opensuse.org/repositories/devel:/DMS/";
