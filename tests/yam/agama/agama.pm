@@ -53,6 +53,8 @@ sub run {
     my $ret = script_run($node_cmd, timeout => 2400);
 
     # see https://github.com/os-autoinst/openQA/blob/master/lib/OpenQA/Parser/Format/TAP.pm#L36
+    assert_script_run("la /tmp");
+    assert_script_run("cat /tmp/$tap");
     assert_script_run("sed -i 's/TAP version 13/$tap ../' /tmp/$tap");
     parse_extra_log(TAP => "/tmp/$tap");
     upload_logs("/tmp/$spec", failok => 1);
