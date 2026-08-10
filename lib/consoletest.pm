@@ -28,7 +28,7 @@ sub post_run_hook {
     my ($self) = @_;
 
     # start next test in home directory
-    assert_script_run "cd";
+    assert_script_run "sudo cd ||:";
 
     $self->record_avc_selinux_alerts();
     # clear screen to make screen content ready for next test
