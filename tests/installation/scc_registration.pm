@@ -19,6 +19,8 @@ sub run {
     return record_info('Skip reg.', 'SCC registration is not required in media based upgrade since SLE15') if (is_sle('15+') && get_var('MEDIA_UPGRADE'));
     if (check_var('SCC_REGISTER', 'installation') || (check_var('REGISTER', 'installation'))) {
         record_info('SCC reg.', 'SCC registration');
+	my $scc_addons = get_var('SCC_ADDONS');
+	record_info('SCC Addons', "$scc_addons");
         assert_registration_screen_present();
         fill_in_registration_data();
         wait_still_screen();

@@ -3,7 +3,6 @@ name:           ext4
 description:    >
   Test for ext4 filesystem.
 vars:
-  DESKTOP: gnome
   FILESYSTEM: ext4
   YUI_REST_API: 1
 schedule:
