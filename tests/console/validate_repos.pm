@@ -16,6 +16,7 @@ sub run {
     my $test_data = get_test_suite_data();
 
     select_console 'root-console';
+    assert_script_run('zypper -n lr --uri');
 
     my %expected_repos = map { $_->{alias} => 1 } @{$test_data->{repos}};
     my @actual_aliases = split(/\n/, script_output("zypper -n lr --uri | awk \'NR>4 && \$1 ~ /[0-9]/ {print \$3}\'"));

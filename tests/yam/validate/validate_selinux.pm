@@ -12,6 +12,7 @@ use testapi;
 
 sub run {
     select_console 'root-console';
+    assert_script_run('zypper -n lr --uri');
 
     my $selinux = get_test_suite_data()->{selinux};
     assert_script_run("sestatus");
