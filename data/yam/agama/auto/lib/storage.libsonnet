@@ -295,7 +295,15 @@ local home_on_iscsi() = {
   },
   drives: [
     {
-      search: '/dev/sda',
+      "search": {
+        "condition": {
+          "and": [
+            { "name": "/dev/sda" },
+            { "driver": "iscsi_tcp" }
+          ]
+         },
+       "ifNotFound": "skip"
+      },
       partitions: [
         {
           search: '*',

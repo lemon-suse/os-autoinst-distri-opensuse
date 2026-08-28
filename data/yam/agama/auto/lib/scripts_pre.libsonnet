@@ -10,6 +10,19 @@
       done
     |||
   },
+  wipe_filesystem_sda: {
+    name: 'wipefs',
+    content: |||
+      #!/usr/bin/env bash
+      for dev in /dev/sda; do
+          if [ -b "$dev" ]; then
+             wipefs -af "$dev"
+             sleep 1
+             sync
+          fi
+      done
+    |||
+  },
   disable_questions: {
     name: 'disable questions',
     content: |||
