@@ -14,6 +14,7 @@ use testapi;
 
 sub run {
     select_console 'root-console';
+    assert_script_run("cat /etc/fstab");
 
     assert_script_run("lsblk -n | grep '/home'",
         fail_message => "Fail!\n
