@@ -15,6 +15,7 @@ use Mojo::Util 'trim';
 use File::Basename;
 use Yam::Agama::agama_base 'upload_agama_logs';
 use Yam::Agama::LiveIso qw(read_live_iso);
+use mm_network 'setup_static_mm_network';
 
 BEGIN {
     unshift @INC, dirname(__FILE__) . '/../../installation';
